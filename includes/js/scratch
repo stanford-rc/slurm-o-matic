@@ -1,0 +1,13 @@
+scratch
+
+ /*       var queueFlag = $('.queue_radio:checked').attr("data-flag");
+        console.log('queueFlag', queueFlag)
+        if (queueFlag) {
+          queueFlagStr = queueFlag + "\n";
+        }*/
+
+              /*                var gpuFlag = config.queues[i].gpuFlag;
+                      console.log('gpu-flag',gpuFlag)
+                      if(gpuFlag){
+                      	queueRadio.attr("data-flag",gpuFlag);
+                      }*/
