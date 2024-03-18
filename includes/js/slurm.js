@@ -34,7 +34,7 @@
           $("<td>").html(config.queues[i].name).appendTo(tableRow);
           $("<td>").html(config.queues[i].cpu).appendTo(tableRow);
           $("<td>").html(config.queues[i].memory).appendTo(tableRow);
-          $("<td>").html(config.queues[i].nodes).appendTo(tableRow);
+          $("<td>").html(config.queues[i].display_nodes).appendTo(tableRow);
           $("<td>").html(config.queues[i].gpus).appendTo(tableRow);
           $tableBody.append(tableRow);
         }
@@ -337,12 +337,12 @@
         var moduleSelect = $('#modules');
         var modListPath = config.config.apps_url;
         console.log('modListPath', modListPath);
+        const regex = new RegExp('^.*\/$');
         fetch(modListPath)
           .then(response => response.text())
           .then((data) => {
             //console.log(data);
             $.each(data.split(/[\n\r]+/), function(index, line) {
-              const regex = new RegExp('^.*\/$');
               if (regex.test(line)) {
                 //console.log('rejected', line);
               } else {
