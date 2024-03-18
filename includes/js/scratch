@@ -11,3 +11,22 @@ scratch
                       if(gpuFlag){
                       	queueRadio.attr("data-flag",gpuFlag);
                       }*/
+
+
+                      #!/bin/bash
+# Give your job a name, so you can recognize it in the queue overview
+#SBATCH --job-name=gputest1
+# Get email notification when job finishes or fails
+#SBATCH --mail-type=END,FAIL # notifications for job done & fail
+#SBATCH --mail-user=<sunetid>@stanford.edu
+# Define how long you job will run d-hh:mm:ss
+#SBATCH --time 02:00:00
+# GPU jobs require you to specify partition
+#SBATCH --partition=gpu
+#SBATCH --gres=gpu:1 
+#SBATCH --mem=16G
+# Number of tasks
+#SBATCH --ntasks=1 
+#SBATCH --cpus-per-task=8
+
+ws --https

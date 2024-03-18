@@ -9,15 +9,21 @@
   <title>SLURM O MATIC</title>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-  <script src="includes/js/slurm.js" type="text/javascript"></script>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
+  <script src="https://kit.fontawesome.com/59cf41c46f.js" crossorigin="anonymous"></script>
+
+  <script src="includes/js/slurm.js" type="text/javascript"></script>
   <link href="includes/css/main.inc.css" rel="stylesheet" type="text/css">
 
 </head>
 
 <body>
-  <div class="container">
+  <div class="container slurm-page">
     <div class="row">
       <div class="col-xs-12">
         <h1>SLURM O MATIC</h1>
@@ -25,133 +31,106 @@
     </div>
     <div class="row">
       <div class="col-sm-12">
-        <legend>Available Queues</legend>
-        <table class="table table-bordered table-condensed" id="resource-table">
-          <thead>
-            <tr>
-              <th>Queue Name</th>
-              <th>CPUs</th>
-              <th>Memory</th>
-              <th>Nodes</th>
-              <th>GPUs</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+        <p><a href="cheatsheet.html">cheatsheet</a>
+          <p>Welcome to the Slurm-O-Matic, a tool to help you write your slurm sbatch scripts. When you like what you see, click the Copy to Clipboard button and paste the text into your text editor.</p>
+          <h3>Available Queues</h3>
+          <table class="table table-bordered table-condensed" id="resource-table">
+            <thead>
+              <tr>
+                <th>Queue Name</th>
+                <th>CPUs</th>
+                <th>Memory</th>
+                <th>Nodes</th>
+                <th>GPUs</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
       </div>
     </div>
     <div class="row slurm-form">
       <div class="col-sm-6">
         <div class="form-horizontal">
           <fieldset>
-            <legend>Choose a Queue</legend>
+            <h3>Choose a Queue</h3>
             <div class="form-group">
-              <div id="choose-queue" class="col-sm-8"></div>
+              <div id="choose-queue"></div>
+            </div>
+            <div class="form-group gpu-group">
+              <label>Specify GPUs</label>
+              <div id="choose-gpu"></div>
             </div>
           </fieldset>
           <fieldset>
-            <legend>Allocate Resources</legend>
+            <h3>Allocate Resources</h3>
             <div class="form-group">
-              <label class="col-sm-4"><span class="cpu-gpu">CPU</span> (cores)</label>
-              <div class="col-sm-8">
-                <select id="cpu" class="form-control">
-                </select>
-              </div>
+              <label><span class="cpu-gpu">CPU</span> (cores)</label>
+              <select id="cpu" class="form-control">
+                <option selected value="<>">---</option>
+              </select>
             </div>
             <div class="form-group">
-              <label class="col-sm-4">Memory (GB)</label>
-              <div class="col-sm-8">
-                <select id="memory" class="form-control">
-                </select>
-              </div>
+              <label>Memory (GB)</label>
+              <select id="memory" class="form-control">
+                <option selected value="<>">---</option>
+              </select>
             </div>
             <div class="form-group">
-              <label class="col-sm-4">Nodes</label>
-              <div class="col-sm-8">
-                <select id="nodes" class="form-control">
-                </select>
-              </div>
+              <label>Nodes</label>
+              <select id="nodes" class="form-control">
+                <option selected value="<>">---</option>
+              </select>
             </div>
             <div class="form-group gpu-group">
-              <label class="col-sm-4">GPUs</label>
-              <div class="col-sm-8">
-                <select id="gpu" class="form-control">
-                </select>
-              </div>
+              <label>GPUs</label>
+              <select id="gpu" class="form-control">
+                <option selected value="<>">---</option>
+              </select>
             </div>
-            <div class="form-group gpu-group">
-              <label class="col-sm-4">Specify GPUs (optional)</label>
-              <div id="choose-gpu" class="col-sm-8"></div>
-            </div>
-
             <div class="form-group" id='runtime'>
-              <label class="col-sm-4">Running Time</label>
-              <div class="col-sm-8 form-row form-inline align-items-center">
+              <label>Running Time</label>
+              <div class="form-row form-inline runtime-form">
 
                 <div class="col-auto">
                   <label class="sr-only" for="runtimeHr">Hours</label>
-                  <select id="runtimeHr" class="form-control"></select>
+                  <select id="runtimeHr" class="form-control fancy-dropdown"></select>
+                  <small class="form-text text-muted text-center">Hours</small>
                 </div>
                 <div class="col-auto">
-                  : <label class="sr-only" for="runtimeMin">Minutes</label>
-                  <select id="runtimeMin" class="form-control"></select>
+                  <span class="separator">:</span>
+                </div>
+                <div class="col-auto"><label class="sr-only" for="runtimeMin">Minutes</label>
+                  <select id="runtimeMin" class="form-control fancy-dropdown"></select>
+                  <small class="form-text text-muted text-center">Minutes</small>
                 </div>
 
               </div>
           </fieldset>
           <fieldset>
-            <legend>Modules/Commands</legend>
+            <h3>Modules/Commands</h3>
             <div class="form-group">
-              <label class="col-sm-4">Modules to load</label>
-              <div class="col-sm-8">
-                <select id='modules' multiple class='select2_dropdown form-control'>
-                  <!--                  <?php
-                    $lines = preg_split('/ +/',file_get_contents($config['config']['apps_url']));
-                    $software = array();
-                      foreach($lines as $line){
-                          $line = trim($line);
-                          $matches = preg_split("/\s+/",$line);
-                          foreach($matches as $match){
-                                array_push($software,($match));
-                          }
-                      }
-                      sort($software);
-                      
-                      foreach( $software as $module){
-                          if(! (preg_match('/modules|^-|^ -|\/$/',$module)) ){
-                        echo "<option value='{$module}' >{$module}</option>";
-                          }
-                      }
-                      ?> -->
-                </select>
-              </div>
+              <label>Modules to load</label>
+              <select id='modules' class="fancy-dropdown" multiple="multiple" style="width:100%">
+              </select>
             </div>
             <div class="form-group">
-              <label class="col-sm-4">Commands to run</label>
-              <div class="col-sm-8">
-                <textarea class="form-control" id="commands" rows="2" placeholder="formatdb -p F -i all_seqs.fasta -n customBLASTdb"></textarea>
-              </div>
+              <label>Commands to run</label>
+              <textarea class="form-control autoresizing" id="commands" rows="2" placeholder="srun hostname"></textarea>
             </div>
           </fieldset>
           <fieldset>
-            <legend>Recommended Settings</legend>
+            <h3>Recommended Settings</h3>
             <div class="form-group">
-              <label class="col-sm-4">Email</label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" name="email" id="email" />
-              </div>
+              <label>SUnetID</label>
+              <input type="text" class="form-control" name="sunetid" id="sunetid" placeholder="This will enable email notifications" maxlength="8" />
             </div>
             <div class="form-group">
-              <label class="col-sm-4">Job Name</label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" name="jobname" id="jobname" />
-              </div>
+              <label>Job Name</label>
+              <input type="text" class="form-control" name="jobname" id="jobname" placeholder="Name this job" />
             </div>
             <div class="form-group">
-              <label class="col-sm-4">Working directory</label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" name="workingdir" id="workingdir" placeholder="/full/path/to/directory/" />
-              </div>
+              <label>Working directory</label>
+              <input type="text" class="form-control" name="workingdir" id="workingdir" placeholder="/full/path/to/directory/" />
             </div>
           </fieldset>
         </div>
@@ -159,28 +138,20 @@
       <div class="col-sm-6">
         <div class="form-horizontal">
           <fieldset>
-            <legend>SLURM Script</legend>
-            <textarea id="slurm" class="form-control" rows="16" readonly></textarea>
+            <h3>SLURM Script <a class="btn btn-outline-info float-right" id="copyBtn"><i class="fa-regular fa-clipboard"></i><span> Copy to Clipboard</span></a></h3>
+
+            <textarea id="slurm" class="form-control form-control-plaintext" rows="16" readonly></textarea>
+
           </fieldset>
           <fieldset>
-            <legend>Optional Settings</legend>
+            <h3>Optional Settings</h3>
             <div class="form-group">
-              <label class="col-sm-4">Std out file</label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" name="stdout" id="stdout" />
-              </div>
+              <label>Std out file name</label>
+              <input type="text" class="form-control" name="stdout" id="stdout" placeholder="Change output file name" />
             </div>
             <div class="form-group">
-              <label class="col-sm-4">Std err file</label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" name="stderr" id="stderr" />
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-4">Project</label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" name="project" id="project" />
-              </div>
+              <label>Std err file name</label>
+              <input type="text" class="form-control" name="stderr" id="stderr" placeholder="Change error file name" />
             </div>
           </fieldset>
         </div>
