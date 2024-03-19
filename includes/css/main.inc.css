@@ -11,9 +11,35 @@
 #copyBtn.funkytown {
   text-align: left;
 }
-#slurm.funkyslurm {
-  border-color: blue;
+div.fancy-copy{
+  position:relative;
 }
+
+div.fancy-copy.copied{
+  background-color:black;
+  opacity:.5;
+}
+
+#copyOverlay {
+  display:none;
+}
+
+div.fancy-copy.copied #copyOverlay {
+  display:block;
+  position:absolute;
+  top:50%;
+  margin-top: -150px;
+  right:50%;
+  margin-right: -112px;
+  font-size:300px;
+  opacity:.3;
+  color:black;
+
+}
+
+
+
+
 
 .tips {
   ::placeholder {

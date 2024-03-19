@@ -163,21 +163,25 @@
         $('#copyBtn').width(baseWidth);
         copyBling();
         setTimeout(function() {
-  // Your jQuery action here
-  copyUnBling();
-}, 2000); // Delay in milliseconds
+          // Your jQuery action here
+          copyUnBling();
+        }, 1000); // Delay in milliseconds
       }
-      function copyBling(){
+
+      function copyBling() {
         console.log('copyBling');
         $('#copyBtn').addClass('funkytown');
+        $('.fancy-copy').addClass('copied');
         $('#copyBtn span').text(' Copied!');
         $('#copyBtn i').addClass('fa-beat');
         $('#copyBtn i').addClass('fa-solid fa-clipboard-check');
         $('#copyBtn i').removeClass('fa-regular fa-clipboard');
       }
-      function copyUnBling(){
+
+      function copyUnBling() {
         console.log('copyUnBling');
         $('#copyBtn').removeClass('funkytown');
+        $('.fancy-copy').removeClass('copied');
         $('#copyBtn span').text(' Copy to Clipboard');
         $('#copyBtn i').removeClass('fa-beat');
         $('#copyBtn i').removeClass('fa-solid fa-clipboard-check');
@@ -281,7 +285,7 @@
         console.log('scroll', scroll);
         if (slurmHeight != "auto") {
           if (scroll > slurmHeight) {
-            console.log('fixing slurmHeight',scroll);
+            console.log('fixing slurmHeight', scroll);
             $('#slurm').height(scroll + "px");
           }
         }
