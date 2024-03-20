@@ -1,3 +1,26 @@
+@font-face {
+  font-family: "Stanford";
+
+  src: url("https://www-media.stanford.edu/assets/fonts/stanford.woff") format("woff"), url("https://www-media.stanford.edu/assets/fonts/stanford.ttf") format("truetype");
+
+  font-weight: 300;
+
+  font-display: swap;
+}
+
+.su-brand-bar,
+footer{
+  font-size: 62.5%;
+}
+
+header a:hover{
+  text-decoration:none;
+}
+
+body{
+    font-family: Source Sans Pro, Helvetica Neue, Helvetica, Arial, sans-serif;
+
+}
 .slurm-form .runtime-form {
   align-items: flex-start;
 }
@@ -8,9 +31,25 @@
   margin: 0 0 2em;
 }
 
+.slurm-page h1 {
+  margin-bottom:1em;
+}
+.slurm-page h3 {
+  margin-top:1em;
+}
+
 #copyBtn.funkytown {
   text-align: left;
 }
+#copyBtn.funkytown {
+  animation: fadeIn 1s;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
 div.fancy-copy{
   position:relative;
 }
@@ -70,5 +109,11 @@ div.fancy-copy.copied #copyOverlay {
 }
 
 .slurm-page{
-  padding-top: 1em;
+  padding-top: 1rem;
+  padding-bottom:2rem;
+}
+
+select {
+    background: none;
+    background-image: none;
 }
