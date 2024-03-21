@@ -12,7 +12,7 @@
       var j;
       var queueLength;
       $.getJSON("includes/config.json", function(data) {
-        console.log(data);
+        //console.log(data);
         config = data;
         queueLength = config.queues.length;
         populateResourceTable(config);
@@ -24,7 +24,7 @@
         generateScript();
         return;
       }).fail(function(e) {
-        console.log("An error has occurred.", e);
+        //console.log("An error has occurred.", e);
       });
 
       function populateResourceTable(config) {
@@ -50,7 +50,7 @@
             uniqueArr.push(config.queues[i].name);
           }
         }
-        console.log('uniqueArr', uniqueArr);
+        //console.log('uniqueArr', uniqueArr);
 
         for (i = 0; i < uniqueArr.length; i++) {
           var queueRow = $('<div class="form-check">');
@@ -69,7 +69,7 @@
         var queue = $('.queue_radio:checked').val();
         handleGPU(queue);
         var gpuSpec = $('.gpu-flag-radio:checked').val();
-        console.log('this gpu', gpuSpec);
+        //console.log('this gpu', gpuSpec);
         for (i = 0; i < queueLength; i++) {
           if (config.queues[i].name == queue) {
             if (gpu) {
@@ -78,7 +78,7 @@
               }
             }
 
-            console.log('config cpu', config.queues[i].cores);
+            //console.log('config cpu', config.queues[i].cores);
             var cpu = $('#cpu');
             cpu.empty();
             var myCPU = config.queues[i].cores;
@@ -136,7 +136,7 @@
       }
 
       function handleGPU(queue) {
-        console.log('handleGPU', queue);
+        //console.log('handleGPU', queue);
         if (queue == "gpu") {
           $('.gpu-group').show();
         } else { //unselect/dump gpu options
@@ -150,7 +150,7 @@
       async function copyTextToClipboard(text) {
         try {
           await navigator.clipboard.writeText(text);
-          console.log('Text copied to clipboard', text);
+          //console.log('Text copied to clipboard', text);
           notifyCopy();
         } catch (err) {
           console.error('Failed to copy: ', err);
@@ -158,7 +158,7 @@
       }
 
       function notifyCopy() {
-        console.log('notifyCopy');
+        //console.log('notifyCopy');
         baseWidth = $('#copyBtn').width();
         $('#copyBtn').width(baseWidth);
         copyBling();
@@ -169,7 +169,7 @@
       }
 
       function copyBling() {
-        console.log('copyBling');
+        //console.log('copyBling');
         $('#copyBtn').addClass('funkytown');
         $('.fancy-copy').addClass('copied');
         $('#copyBtn span').text(' Copied!');
@@ -179,7 +179,7 @@
       }
 
       function copyUnBling() {
-        console.log('copyUnBling');
+        //console.log('copyUnBling');
         $('#copyBtn').removeClass('funkytown');
         $('.fancy-copy').removeClass('copied');
         $('#copyBtn span').text(' Copy to Clipboard');
@@ -189,7 +189,7 @@
       }
 
       function generateScript() {
-        //console.log('generateScript');
+        ////console.log('generateScript');
         // Grab Queue
         var queue = $('.queue_radio:checked').val();
         var queueStr = "#SBATCH -p " + queue + "\n";
@@ -201,7 +201,7 @@
         var runtimeHour = $('#runtimeHr').val();
         var runtimeMinute = $('#runtimeMin').val();
         var runtimeFormat = runtimeHour + ":" + runtimeMinute + ":00";
-        //console.log(runtimeFormat);
+        ////console.log(runtimeFormat);
         var gpu = null;
         gpu = $("#gpu").val();
         var cpuStr = "#SBATCH -n " + cpu + "\n";
@@ -226,11 +226,11 @@
             theme: 'bootstrap4',
             width: 'resolve'
           });
-          console.log('script modules were not initialized');
+          //console.log('script modules were not initialized');
           modules = $('#modules').select2('val');
         }
 
-        //console.log('modules', modules);
+        ////console.log('modules', modules);
         var modulesStr = "";
         if (modules != null) {
           for (i = 0; i < modules.length; i++) {
@@ -240,7 +240,7 @@
 
         // Grab commands
         var commands = $('#commands').val();
-        //console.log('commands', commands);
+        ////console.log('commands', commands);
         var commandsStr = commands + "\n";
 
         // Recommended settings
@@ -280,12 +280,12 @@
         $('#slurm').height('auto').empty();
         $('#slurm').val(script);
         var slurmHeight = $('#slurm').height();
-        console.log('slurmheight', slurmHeight);
+        //console.log('slurmheight', slurmHeight);
         var scroll = $('#slurm').prop('scrollHeight');
-        console.log('scroll', scroll);
+        //console.log('scroll', scroll);
         if (slurmHeight != "auto") {
           if (scroll > slurmHeight) {
-            console.log('fixing slurmHeight', scroll);
+            //console.log('fixing slurmHeight', scroll);
             $('#slurm').height(scroll + "px");
           }
         }
@@ -297,7 +297,7 @@
       }
 
       function populateTimeDropdowns() {
-        console.log("populateTimeDropdowns");
+        //console.log("populateTimeDropdowns");
         var runtimeDefault = 2;
         var display;
         var selectedString;
@@ -324,13 +324,13 @@
         var slurmStatus = $('#slurmStatus');
         var slurmGpuUtil = $('#slurmGpuUtil');
         if (sunetid) {
-          console.log("has sunet");
+          //console.log("has sunet");
           slurmStatus.empty();
           var statusCommand = "squeue -u " + sunetid;
           slurmStatus.val(statusCommand)
         }
         if (jobid) {
-          console.log("has jobid");
+          //console.log("has jobid");
           slurmGpuUtil.empty();
           var slurmGpuUtilCommand = "srun --jobid= " + jobid + " --pty bash nvidia-smi";
           slurmGpuUtil.val(slurmGpuUtilCommand)
@@ -340,17 +340,17 @@
       function populateModules(config) {
         var moduleSelect = $('#modules');
         var modListPath = config.config.apps_url;
-        console.log('modListPath', modListPath);
+        //console.log('modListPath', modListPath);
         const regex = new RegExp('^.*\/$');
         fetch(modListPath)
           .then(response => response.text())
           .then((data) => {
-            //console.log(data);
+            ////console.log(data);
             $.each(data.split(/[\n\r]+/), function(index, line) {
               if (regex.test(line)) {
-                //console.log('rejected', line);
+                ////console.log('rejected', line);
               } else {
-                //console.log('kept', line);
+                ////console.log('kept', line);
                 moduleSelect.append('<option value="' + line + '">' + line + '</option>');
               }
             });
@@ -359,9 +359,9 @@
               width: 'resolve'
             });
             if ($('#modules').hasClass("select2-hidden-accessible")) {
-              console.log('populateModules modules initialized');
+              //console.log('populateModules modules initialized');
             } else {
-              console.log('populateModules modules not initialized');
+              //console.log('populateModules modules not initialized');
             }
             //TODO: move this
             moduleSelect.on('select2:select', function(e) {
@@ -388,12 +388,12 @@
       }
       $(document).on('input', '.autoresizing', function(e) {
         generateScript();
-        console.log('textarea', e);
+        //console.log('textarea', e);
         this.style.height = 'auto';
-        console.log('autoresize height', this.style.height);
+        //console.log('autoresize height', this.style.height);
         this.style.height =
           (this.scrollHeight) + 'px';
-        console.log('scroll', this.scrollHeight);
+        //console.log('scroll', this.scrollHeight);
       });
 
       document.addEventListener('change', function(e) {
@@ -401,7 +401,7 @@
         const parent = node.closest('.slurm-form');
         if (hasClass(node, 'queue_radio')) {
           var selected_value = $(".queue_radio:checked").val();
-          console.log('selected_value', selected_value);
+          //console.log('selected_value', selected_value);
           populateResourceDropdowns(config);
           handleGPU(selected_value);
           generateScript();
