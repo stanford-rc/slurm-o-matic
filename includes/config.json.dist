@@ -4,16 +4,27 @@
 		"apps_url": "http://localhost/apps.txt"
 	},
 	"queues": [
-		{
-			"name": "",
-			"cpu": ,
-			"memory": ,
-			"nodes": 
+		{	"name": "gpu",
+			"cpu": "Dual Core Intel Xeon Silver 4114 (10C 2.2GHz)",
+			"memory":"256GB",
+			"memoryNum":256,# same as "memory" without the GB, so it can be used to set dropdowns
+			"nodes": "3",#maximum number that can be requested
+			"display_nodes" : "6", #what shows up in the resource table
+			"gpus" : "Quad NVIDIA Tesla V100",
+			"gpuFlag" : "#SBATCH -C GPU_SKU:V100_PCIE", #this is the entire line to drop into the script
+			"cores" : 60, #number
+			"gpuId" : "V100_PCIE"
 		},
 		{	"name": "",
-			"cpu": ,
-			"memory":,
-			"nodes":
-		}
+			"cpu": "",
+			"memory":"",
+			"memoryNum": 1,
+			"nodes": "",
+			"display_nodes" : "",
+			"gpus" : "",
+			"gpuFlag" : "",
+			"cores" : 1,
+			"gpuId" : ""
+		},
 	]
 }
