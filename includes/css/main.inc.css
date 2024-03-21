@@ -9,16 +9,16 @@
 }
 
 .su-brand-bar,
-footer{
+footer {
   font-size: 62.5%;
 }
 
-header a:hover{
-  text-decoration:none;
+header a:hover {
+  text-decoration: none;
 }
 
-body{
-    font-family: Source Sans Pro, Helvetica Neue, Helvetica, Arial, sans-serif;
+body {
+  font-family: Source Sans Pro, Helvetica Neue, Helvetica, Arial, sans-serif;
 
 }
 .slurm-form .runtime-form {
@@ -32,10 +32,10 @@ body{
 }
 
 .slurm-page h1 {
-  margin-bottom:1em;
+  margin-bottom: 1em;
 }
 .slurm-page h3 {
-  margin-top:1em;
+  margin-top: 1em;
 }
 
 #copyBtn.funkytown {
@@ -46,33 +46,37 @@ body{
 }
 
 @keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
-div.fancy-copy{
-  position:relative;
+div.fancy-copy {
+  position: relative;
 }
 
-div.fancy-copy.copied{
-  background-color:black;
-  opacity:.5;
+div.fancy-copy.copied {
+  background-color: black;
+  opacity: .5;
 }
 
 #copyOverlay {
-  display:none;
+  display: none;
 }
 
 div.fancy-copy.copied #copyOverlay {
-  display:block;
-  position:absolute;
-  top:50%;
+  display: block;
+  position: absolute;
+  top: 50%;
   margin-top: -150px;
-  right:50%;
+  right: 50%;
   margin-right: -112px;
-  font-size:300px;
-  opacity:.3;
-  color:black;
+  font-size: 300px;
+  opacity: .3;
+  color: black;
 
 }
 
@@ -108,9 +112,9 @@ div.fancy-copy.copied #copyOverlay {
   margin-top: 1em;
 }
 
-.slurm-page{
+.slurm-page {
   padding-top: 1rem;
-  padding-bottom:2rem;
+  padding-bottom: 2rem;
 }
 
 @media only screen and (min-width:768px) {
@@ -124,13 +128,20 @@ div.fancy-copy.copied #copyOverlay {
   }
 }
 
-.slurm-page .select2-container--bootstrap4 .select2-selection--multiple button.select2-selection__choice__remove{
-padding:0 2px;
-margin-right:5px;
-color:white;
+.slurm-page .select2-container--bootstrap4 .select2-selection--multiple button.select2-selection__choice__remove {
+  padding: 0 2px;
+  margin-right: 5px;
+  color: white;
 }
 
 select {
-    background: none;
-    background-image: none;
+  background: none;
+  background-image: none;
+}
+
+.su-lockup--option-b .su-lockup__line2{
+  font-size:1.5rem;
+}
+.su-lockup--option-b .su-lockup__line1 {
+  font-size:1.2rem;
 }
