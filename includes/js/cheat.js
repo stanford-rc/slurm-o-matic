@@ -2,18 +2,18 @@ $(document).ready(function() {
 
   $(document).on('click', '#generateBtn', function() {
     generateTips();
-    console.log("generate button");
+    //console.log("generate button");
   });
   $(document).on('click', '.copy,.fa-clipboard', function(e) {
     generateTips();
     copyButton(e);
-    console.log("copy button");
+    //console.log("copy button");
   });
 
   async function copyTextToClipboard(text) {
     try {
       await navigator.clipboard.writeText(text);
-      console.log('Text copied to clipboard', text);
+      //console.log('Text copied to clipboard', text);
       notifyCopy();
     } catch (err) {
       console.error('Failed to copy: ', err);
@@ -31,7 +31,7 @@ $(document).ready(function() {
     var toDate = $("#to").datepicker("getDate");
     toDate = $.datepicker.formatDate(dateFormat, toDate);
     if (fromDate, toDate, sunetid) {
-      console.log("got dates");
+      //console.log("got dates");
       var userUtilizationCommand = "sreport cluster UserUtilizationByAccount -T GRES/gpu,cpu,Mem Start=" + fromDate + " End=" + toDate + " user=" + sunetid;
       return userUtilizationCommand;
     } else {
@@ -47,7 +47,7 @@ $(document).ready(function() {
     var slurmHistory = $('#slurmHistory');
     var slurmCancel = $('#slurmCancel');
     if (sunetid) {
-      console.log("has sunet");
+      //console.log("has sunet");
       slurmStatus.empty();
       var statusCommand = "squeue -u " + sunetid;
       slurmStatus.val(statusCommand);
@@ -57,7 +57,7 @@ $(document).ready(function() {
 
     }
     if (jobid) {
-      console.log("has jobid");
+      //console.log("has jobid");
       slurmGpuUtil.empty();
       var slurmGpuUtilCommand = "srun --jobid=" + jobid + " --pty bash nvidia-smi";
       slurmGpuUtil.val(slurmGpuUtilCommand);
@@ -75,7 +75,7 @@ $(document).ready(function() {
     var targetText = node.dataset.target;
     var textToCopy = $("#" + targetText);
     var text = textToCopy.val();
-    console.log('textToCopy', textToCopy);
+    //console.log('textToCopy', textToCopy);
     copyTextToClipboard(text);
   }
 
@@ -92,14 +92,14 @@ $(document).ready(function() {
   }
 
   function copyBling() {
-    console.log('copyBling');
+    //console.log('copyBling');
     $('.copy.copy-target i').addClass('fa-beat');
     $('.copy.copy-target i').addClass('fa-solid fa-clipboard-check');
     $('.copy.copy-target i').removeClass('fa-regular fa-clipboard');
   }
 
   function copyUnBling() {
-    console.log('copyUnBling');
+    //console.log('copyUnBling');
     $('.copy.copy-target i').removeClass('fa-beat');
     $('.copy.copy-target i').removeClass('fa-solid fa-clipboard-check');
     $('.copy.copy-target i').addClass('fa-regular fa-clipboard');

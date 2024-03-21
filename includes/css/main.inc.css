@@ -113,6 +113,23 @@ div.fancy-copy.copied #copyOverlay {
   padding-bottom:2rem;
 }
 
+@media only screen and (min-width:768px) {
+  .su-masthead .su-lockup {
+    margin-bottom: 0;
+  }
+}
+@media only screen and (min-width:1500px) {
+  .su-masthead .su-lockup {
+    margin-bottom: 0;
+  }
+}
+
+.slurm-page .select2-container--bootstrap4 .select2-selection--multiple button.select2-selection__choice__remove{
+padding:0 2px;
+margin-right:5px;
+color:white;
+}
+
 select {
     background: none;
     background-image: none;
