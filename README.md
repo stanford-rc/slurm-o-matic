@@ -1,7 +1,7 @@
-SLURM Generator
+SLURM*O*MATIC
 ===============
 
-This tool helps users generate SLURM batch scripts for the Carl R. Woese Institute for Genomic Biology's Biocluster [https://biocluster.igb.illinois.edu](https://biocluster.igb.illinois.edu).  Allows them to interactively build their SLURM script. As job parameters are entered into the form, the SLURM script is generated in real time.
+This tool helps users generate SLURM batch scripts. As job parameters are entered into the form, the SLURM script is generated in real time.
 
 ## Installation
 * Git Clone the repository or download a tag release.  Place in a web accessable folder
@@ -48,3 +48,4 @@ Copy the contents into the file /includes/modules.txt (or whatever location is s
 			"gpuId" : "P100_PCIE"
 		},
 ```
+I cribbed from multiple sources to create whatever this is, including IGBIllinois/SLURM_generator
