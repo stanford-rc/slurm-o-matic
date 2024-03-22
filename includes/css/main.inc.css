@@ -145,3 +145,7 @@ select {
 .su-lockup--option-b .su-lockup__line1 {
   font-size:1.2rem;
 }
+
+.select2-container {
+    width: auto !important;
+}

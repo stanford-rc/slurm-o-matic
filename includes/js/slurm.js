@@ -316,6 +316,10 @@
           display = (j > 9) ? j : "0" + j;
           runtimeMin.append('<option value="' + display + '">' + display + '</option>');
         }
+        $('.fancy-dropdown').select2({
+            theme: 'bootstrap4',
+            width: 'resolve'
+          });
       }
 
       function generateTips() {

@@ -11,7 +11,7 @@
 			"memoryNum":384,
 			"nodes": "2",
 			"display_nodes" : "16",
-			"cores" : 256
+			"cores" : 160
 		},
 		{	"name": "gpu",
 			"cpu": "Dual Core Intel Xeon Gold 6130 (16C 2.1GHz)",
@@ -21,7 +21,7 @@
 			"display_nodes" : "2",
 			"gpus" : "Dual P100",
 			"gpuFlag" : "#SBATCH -C GPU_SKU:P100_PCIE",
-			"cores" : 32,
+			"cores" : 164,
 			"gpuId" : "P100_PCIE"
 		},
 		{	"name": "gpu",
@@ -32,7 +32,7 @@
 			"display_nodes" : "6",
 			"gpus" : "Quad NVIDIA Tesla V100",
 			"gpuFlag" : "#SBATCH -C GPU_SKU:V100_PCIE",
-			"cores" : 60,
+			"cores" : 164,
 			"gpuId" : "V100_PCIE"
 		}
 	]
