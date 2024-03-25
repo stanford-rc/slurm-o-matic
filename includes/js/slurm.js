@@ -12,9 +12,13 @@
       var j;
       var queueLength;
       $.getJSON("includes/config.json", function(data) {
-        //console.log(data);
         config = data;
+        console.log('config', config);
         queueLength = config.queues.length;
+        populateFakeGpu(config);
+        console.log('new config', config);
+        queueLength = config.queues.length;
+        console.log('queueLength', queueLength);
         populateResourceTable(config);
         populateQueueRadio(config);
         populateGpuRadio(config);
@@ -30,14 +34,20 @@
       function populateResourceTable(config) {
         var $tableBody = $('#resource-table tbody');
         for (i = 0; i < queueLength; i++) {
-          var tableRow = $('<tr>');
-          $("<td>").html(config.queues[i].name).appendTo(tableRow);
-          $("<td>").html(config.queues[i].cpu).appendTo(tableRow);
-          $("<td>").html(config.queues[i].memory).appendTo(tableRow);
-          $("<td>").html(config.queues[i].display_nodes).appendTo(tableRow);
-          $("<td>").html(config.queues[i].gpus).appendTo(tableRow);
-          $tableBody.append(tableRow);
+          if (config.queues[i].showTable) { //skip if this is fake
+            var tableRow = $('<tr>');
+            $("<td>").html(config.queues[i].name).appendTo(tableRow);
+            $("<td>").html(config.queues[i].cpu).appendTo(tableRow);
+            $("<td>").html(config.queues[i].memory).appendTo(tableRow);
+            $("<td>").html(config.queues[i].displayNodes).appendTo(tableRow);
+            $("<td>").html(config.queues[i].gpus).appendTo(tableRow);
+            $tableBody.append(tableRow);
+          }
         }
+        $('.table-toggle').click(function() {
+          console.log('toggle');
+          $(this).find('i').toggleClass('fas fa-plus fas fa-minus');
+        });
       }
 
       function populateQueueRadio(config) {
@@ -50,7 +60,6 @@
             uniqueArr.push(config.queues[i].name);
           }
         }
-        //console.log('uniqueArr', uniqueArr);
 
         for (i = 0; i < uniqueArr.length; i++) {
           var queueRow = $('<div class="form-check">');
@@ -69,76 +78,154 @@
         var queue = $('.queue_radio:checked').val();
         handleGPU(queue);
         var gpuSpec = $('.gpu-flag-radio:checked').val();
-        //console.log('this gpu', gpuSpec);
         for (i = 0; i < queueLength; i++) {
           if (config.queues[i].name == queue) {
-            if (gpu) {
+            if (config.queues[i].name == "gpu") {
               if (config.queues[i].gpuId != gpuSpec) {
                 continue;
               }
             }
+            var cpuLimit = config.queues[i].coresLimit;
+            var cpuCount = config.queues[i].cores;
+            populateCores(cpuCount, cpuLimit);
 
-            //console.log('config cpu', config.queues[i].cores);
-            var cpu = $('#cpu');
-            cpu.empty();
-            var myCPU = config.queues[i].cores;
-
-            for (j = 1; j <= config.queues[i].cores; j++) {
-              cpu.append('<option value="' + j + '">' + j + '</option>');
-            }
-            var $memory = $('#memory');
-            $memory.empty();
-            for (j = 1; j <= config.queues[i].memoryNum; j++) {
-              $memory.append('<option value="' + j + '">' + j + '</option>');
-            }
-            var $nodes = $('#nodes');
-            $nodes.empty();
-            for (j = 1; j <= config.queues[i].nodes; j++) {
-              $nodes.append('<option value="' + j + '">' + j + '</option>');
-            }
+            var gpuCount = config.queues[i].gpus;
+            populateGpus(gpuCount);
+            var memory = config.queues[i].memoryNum;
+            populateMemory(memory)
+            var nodeCount = config.queues[i].nodes;
+            populateNodes(nodeCount);
 
             var $gpugroup = $('#gpu-group');
             if (config.queues[i].gpus) {
-              var $gpus = $('#gpu');
-              $gpus.empty();
-              for (j = 1; j <= config.queues[i].nodes; j++) {
-                $gpus.append('<option value="' + j + '">' + j + '</option>');
-              }
-
+              var gpus = config.queues[i].gpuNumber;
+              populateGpus(gpus);
+              console.log('gpus', gpus);
             }
 
           }
-
         }
 
-        generateScript();
       }
 
-      //makes a list of gpus
-      function populateGpuRadio(config) {
+      function populateGpus(gpus) {
+        var gpuTarget = $('#gpu');
+        var gpuSpan = $('#gpuRange');
+        gpuTarget.empty();
+        for (j = 1; j <= gpus; j++) {
+          gpuTarget.append('<option value="' + j + '">' + j + '</option>');
+        }
+        gpuSpan.text(" up to " + gpus);
+      }
 
+      function populateCores(cores, limit) {
+        var cpu = $('#cpu');
+        var cpuSpan = $('#coreRange');
+        cpu.empty();
+        for (j = 1; j <= cores; j++) {
+          cpu.append('<option value="' + j + '">' + j + '</option>');
+        }
+        cpuSpan.text(" up to " + cores);
+        var cpuHelp = $('#cpuHelp');
+        if (limit) {
+          $('#cpuHelp').text("limit of " + limit + " CPUs per node");
+        }
+      }
+
+      function populateNodes(nodes) {
+        var $nodes = $('#nodes');
+        var nodeSpan = $('#nodeRange');
+        $nodes.empty();
+        for (j = 1; j <= nodes; j++) {
+          $nodes.append('<option value="' + j + '">' + j + '</option>');
+        }
+        nodeSpan.text(" up to " + nodes);
+      }
+
+      function populateMemory(memory) {
+        var $memory = $('#memory');
+        $memory.empty();
+        $memory.append('<option value="' + "500M" + '">.5 (500MB)</option>');
+        for (j = 1; j <= config.queues[i].memoryNum; j++) {
+          $memory.append('<option value="' + j + 'G">' + j + '</option>');
+        }
+        $($memory).val("1G");
+      }
+
+      //makes a list of gpus and finds baseline among all flavors for generic option and creates new entry in config.
+      function populateGpuRadio(config) {
         var $gpugroup = $('#choose-gpu');
+        var minNodes = Infinity;
+        var minMem = Infinity;
+        var minCores = Infinity;
+        var minCoresLim = Infinity;
+        var minGpu = Infinity;
         $gpugroup.empty();
         for (i = 0; i < queueLength; i++) {
-          if (config.queues[i].gpuFlag) {
+          if (config.queues[i].gpus) {
             var gpuFlagRow = $('<div class="form-check"></div>');
             var gpuFlagRadio = $('<input type="radio" class="form-check-input gpu-flag-radio" name="gpuFlag">');
             gpuFlagRadio.val(config.queues[i].gpuId);
             gpuFlagRadio.attr("data-flag", config.queues[i].gpuFlag)
-
             gpuFlagRadio.appendTo(gpuFlagRow);
             $('<label class="form-check-label">').html(config.queues[i].gpus).appendTo(gpuFlagRow);
           }
           $gpugroup.append(gpuFlagRow);
         }
-        //add a "whatever, dude" option
-        //$('<div class="form-check"><input type="radio" class="form-check-input gpu-flag-radio" name="gpuFlag" checked="true"><label class="form-check-label">First Available</label></div>').appendTo($gpugroup);
+      }
+      //makes a list of gpus and finds baseline among all flavors for generic option and creates new entry in config.
+      function populateFakeGpu(config) {
+        console.log('populateFakeGpu', queueLength);
+        var $gpugroup = $('#choose-gpu');
+        var minNodes = Infinity;
+        var minMem = Infinity;
+        var minCores = Infinity;
+        var minCoresLim = Infinity;
+        var minGpu = Infinity;
+        //start finding lowest number
+        for (i = 0; i < queueLength; i++) {
+          if (config.queues[i].gpuFlag) {
+            var minNodesTest = config.queues[i].nodes;
+            var minMemTest = config.queues[i].memoryNum;
+            var minCoresLimTest = config.queues[i].coresLimit;
+            var minCoresTest = config.queues[i].cores;
+            var minGpuTest = config.queues[i].gpuNumber;
+            console.log('minGpuTest', minGpuTest);
+            if (minCores > minCoresTest) {
+              minCores = minCoresTest;
+            }
+            if (minNodes > minNodesTest) {
+              minNodes = minNodesTest;
+            }
+            if (minCoresLim > minCoresLimTest) {
+              minCoresLim = minCoresLimTest;
+            }
+            if (minGpu > minGpuTest) {
+              minGpu = minGpuTest;
+            }
+            console.log('minMem', minMem);
+            console.log('minMemTest', minMemTest);
+            if (minMem > minMemTest) {
+              minMem = minMemTest;
+            }
+          }
+        } //end loop
+        config.queues.push({
+          "name": "gpu",
+          "gpus": "No preference",
+          "memoryNum": minMem,
+          "nodes": minNodes,
+          "gpuNumber": minGpu,
+          "cores": minCores,
+          "coresLimit": minCoresLim
+        })
       }
 
       function handleGPU(queue) {
-        //console.log('handleGPU', queue);
         if (queue == "gpu") {
           $('.gpu-group').show();
+          var cpuHelp = $('#cpuHelp');
+          $('#cpuHelp').empty();
         } else { //unselect/dump gpu options
           $(".gpu-group").hide();
           $(".gpu-flag-radio").prop('checked', false);
@@ -189,25 +276,25 @@
       }
 
       function generateScript() {
-        ////console.log('generateScript');
+        console.log('generateScript');
         // Grab Queue
         var queue = $('.queue_radio:checked').val();
         var queueStr = "#SBATCH -p " + queue + "\n";
 
         // Grab resources
-        var cpu = $('#cpu').val();
-        var memory = $('#memory').val();
-        var nodes = $('#nodes').val();
-        var runtimeHour = $('#runtimeHr').val();
-        var runtimeMinute = $('#runtimeMin').val();
+        var cpu = getFancyDropdown('#cpu');
+        var memory = getFancyDropdown('#memory');
+        var nodes = getFancyDropdown('#nodes')
+        var runtimeHour = getFancyDropdown('#runtimeHr');
+        var runtimeMinute = getFancyDropdown('#runtimeMin');
         var runtimeFormat = runtimeHour + ":" + runtimeMinute + ":00";
-        ////console.log(runtimeFormat);
+        console.log('runtimeMinute', runtimeMinute);
         var gpu = null;
         gpu = $("#gpu").val();
         var cpuStr = "#SBATCH -n " + cpu + "\n";
-        var memStr = "#SBATCH --mem=" + memory + "g\n";
+        var memStr = "#SBATCH --mem=" + memory + "\n";
         var nodesStr = "#SBATCH -N " + nodes + "\n";
-        var runtimeString = "# Define how long you job will run d-hh:mm:ss\n#SBATCH --time " + runtimeFormat + "\n";
+        var runtimeString = "# Define how long the job will run d-hh:mm:ss\n#SBATCH --time " + runtimeFormat + "\n";
         var gpuStr = "";
         if (gpu != null) {
           gpuStr = "#SBATCH --gres=gpu:" + gpu + "\n";
@@ -230,7 +317,7 @@
           modules = $('#modules').select2('val');
         }
 
-        ////console.log('modules', modules);
+        console.log('modules', modules);
         var modulesStr = "";
         if (modules != null) {
           for (i = 0; i < modules.length; i++) {
@@ -240,7 +327,7 @@
 
         // Grab commands
         var commands = $('#commands').val();
-        ////console.log('commands', commands);
+        console.log('commands', commands);
         var commandsStr = commands + "\n";
 
         // Recommended settings
@@ -277,19 +364,145 @@
           modulesStr +
           "# ----------------Commands------------------------\n" +
           commandsStr;
+        //make size of textarea auto-grow
         $('#slurm').height('auto').empty();
         $('#slurm').val(script);
         var slurmHeight = $('#slurm').height();
-        //console.log('slurmheight', slurmHeight);
         var scroll = $('#slurm').prop('scrollHeight');
-        //console.log('scroll', scroll);
         if (slurmHeight != "auto") {
           if (scroll > slurmHeight) {
-            //console.log('fixing slurmHeight', scroll);
             $('#slurm').height(scroll + "px");
           }
         }
+        //add narrative
+        populateNarrative(nodes, cpu, memory, runtimeHour, runtimeMinute, gpu, queue, jobname, sunetid, stdout, stderr, workingdir);
 
+      }
+
+      function populateNarrative(nodes, cpu, mem, hour, min, gpu, queue, jobname, sunetid, stdout, stderr, workingdir) {
+        var narrative = $('#narrative');
+        narrative.empty();
+        var squeueString = "";
+        var emailString = "";
+        var outputString = "";
+        var output = "";
+        var jobHelpString = "";
+        if (jobname) {
+          jobname = " (" + jobname + ") ";
+        }
+        if (sunetid) {
+          var email = sunetid + "@stanford.edu";
+          emailString = `<p>You will be notified at ${email} when the job ends or fails. </p>`;
+          squeueString = "<code>squeue -u " + sunetid + "</code>";
+          jobHelpString = `<p>After you have submitted this script, look for your job ${jobname} using the terminal command ${squeueString}</p>`
+        }
+        if (workingdir) {
+          //need a trailing /
+          workingdir += workingdir.endsWith("/") ? "" : "/"
+          output = "in " + workingdir;
+        }
+
+        if (stdout) {
+          stdout = workingdir + stdout
+          output = stdout
+        }
+
+        if (stderr) {
+          stderr = workingdir + stderr;
+          if (stdout) {
+            output = stdout + " and " + stderr;
+          } else {
+            output = stderr;
+          }
+        }
+        if (output) {
+          outputString = `<p>Your output files will be ${output}.</p>`
+        }
+
+        if (nodes) {
+          nodes = isOne(nodes, "node", "nodes");
+        }
+        if (cpu) {
+          cpu = isOne(cpu, "CPU", "CPUs");
+        }
+        var gpuString = "";
+        if (gpu) {
+          gpu = isOne(gpu, "GPU", "GPUs");
+          gpuString = gpu + ",";
+        }
+        var partitionString = "";
+        if (queue) {
+          partitionString = " on the " + queue + " partition.</p> ";
+        }
+        var introString = "<p>This script requests "
+        var nodeString = nodes + ", ";
+        var cpuString = "with " + cpu + ", ";
+        var memString = "and " + mem + "B of memory ";
+
+        var timeString = "";
+        var timeIntroString = "<p>This job will run up to ";
+        var hourString = "";
+
+        var minString = "";
+        var hasMinutes = "";
+        if (min > 00) {
+          hasMinutes = true;
+        }
+        if (jobname) {
+          var jobnameStr = "<p>This job will have the name "
+        }
+
+        if (hour) {
+          if (hour != "00") {
+            //remove the leading zero and handle text
+            hour = hour.replaceAll(/^0+/g, "");
+            hour = isOne(hour, "hour", "hours");
+            if (hasMinutes) {
+              hourString = timeIntroString + hour + " and "
+            } else {
+              hourString = timeIntroString + hour + ".</p>"
+            }
+          } else {
+            hourString = timeIntroString;
+          }
+        }
+        if (hasMinutes) {
+          console.log('has min', min)
+          minNew = min.replaceAll(/^0+/g, "");
+          minNew = isOne(minNew, "minute", "minutes");
+          minString = minNew + ".</p> "
+        }
+        narrative.empty();
+        var narrativeString = introString +
+          nodeString +
+          cpuString +
+          gpuString +
+          memString +
+
+          partitionString +
+          timeString +
+          hourString +
+          minString +
+          outputString +
+          emailString +
+          jobHelpString;
+        narrative.html(narrativeString);
+      }
+
+      function isOne(string, unit, unitPlural) {
+        var singleString
+        if (string == "1") {
+          singleString = "a single " + unit;
+          if (unit == "hour") {
+            singleString = "an " + unit;
+          }
+          if (unit == "minute") {
+            singleString = "1 " + unit;
+          }
+        } else {
+          singleString = string + " " + unitPlural
+        }
+        return singleString;
       }
 
       function hasClass(elem, className) {
@@ -297,13 +510,15 @@
       }
 
       function populateTimeDropdowns() {
-        //console.log("populateTimeDropdowns");
+        //get the max runtime and subtract 1 to prevent a limit of 24 hours and a runtime of 48:59. Max hour/min will be 47:59
+        var runtimeMax = config.config.runtimeLimit
+        var runtimeMaxHour = config.config.runtimeLimit - 1;
         var runtimeDefault = 2;
         var display;
         var selectedString;
         var runtimeHr = $('#runtimeHr');
         runtimeHr.empty();
-        for (j = 0; j <= 11; j++) {
+        for (j = 0; j <= runtimeMaxHour; j++) {
           selectedString = (j == runtimeDefault) ? " selected" : "";
           //handle single-digit numbers
           display = (j > 9) ? j : "0" + j;
@@ -316,29 +531,16 @@
           display = (j > 9) ? j : "0" + j;
           runtimeMin.append('<option value="' + display + '">' + display + '</option>');
         }
-        $('.fancy-dropdown').select2({
-            theme: 'bootstrap4',
-            width: 'resolve'
-          });
-      }
+        var runMaxSpan = $('#runMax');
+        runMaxSpan.text('Limit ' + runtimeMax + ' hours')
 
-      function generateTips() {
-        var sunetid = $('#sunetid').val();
-        var jobid = $('#jobid').val();
-        var slurmStatus = $('#slurmStatus');
-        var slurmGpuUtil = $('#slurmGpuUtil');
-        if (sunetid) {
-          //console.log("has sunet");
-          slurmStatus.empty();
-          var statusCommand = "squeue -u " + sunetid;
-          slurmStatus.val(statusCommand)
-        }
-        if (jobid) {
-          //console.log("has jobid");
-          slurmGpuUtil.empty();
-          var slurmGpuUtilCommand = "srun --jobid= " + jobid + " --pty bash nvidia-smi";
-          slurmGpuUtil.val(slurmGpuUtilCommand)
-        }
+        $('.fancy-dropdown').select2({
+          theme: 'bootstrap4',
+          width: 'resolve'
+        });
+        $('.fancy-dropdown').on('select2:select', function(e) {
+          generateScript();
+        });
       }
 
       function populateModules(config) {
@@ -349,12 +551,8 @@
         fetch(modListPath)
           .then(response => response.text())
           .then((data) => {
-            ////console.log(data);
             $.each(data.split(/[\n\r]+/), function(index, line) {
-              if (regex.test(line)) {
-                ////console.log('rejected', line);
-              } else {
-                ////console.log('kept', line);
+              if (regex.test(line)) {} else {
                 moduleSelect.append('<option value="' + line + '">' + line + '</option>');
               }
             });
@@ -362,11 +560,6 @@
               theme: 'bootstrap4',
               width: 'resolve'
             });
-            if ($('#modules').hasClass("select2-hidden-accessible")) {
-              //console.log('populateModules modules initialized');
-            } else {
-              //console.log('populateModules modules not initialized');
-            }
             //TODO: move this
             moduleSelect.on('select2:select', function(e) {
               //var modules = $('#modules').select2('val');
@@ -400,23 +593,37 @@
         //console.log('scroll', this.scrollHeight);
       });
 
+      //This is to prevent an error from trying to access the value of a fancy dropdown that hasn't initialized
+      function getFancyDropdown(element) {
+        var value;
+        if ($(element).hasClass("select2-hidden-accessible")) {
+          value = $(element).select2('val');
+        } else {
+          value = $(element).val();
+        }
+        return value;
+      }
+
       document.addEventListener('change', function(e) {
         var node = e.target;
         const parent = node.closest('.slurm-form');
         if (hasClass(node, 'queue_radio')) {
           var selected_value = $(".queue_radio:checked").val();
-          //console.log('selected_value', selected_value);
           populateResourceDropdowns(config);
           handleGPU(selected_value);
           generateScript();
-        }
-        if (hasClass(node, 'gpu-flag-radio')) {
+        } else if (hasClass(node, 'gpu-flag-radio')) {
           var selected_value = $(".gpu-flag-radio:checked").val();
-          populateResourceDropdowns(config);
-          generateScript();
+          console.log('selected_value', selected_value);
+          if (selected_value == "minGpu") {
+            populateFakeGpu();
+          } else {
+            populateResourceDropdowns(config);
+            generateScript();
+          }
+
         } else {
           generateScript();
-          generateTips();
         }
       }, false);
 

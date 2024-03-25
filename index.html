@@ -38,9 +38,12 @@
       <div class="col-sm-12">
 
         <p>Welcome to the Stanford Research Computing SLURM*O*MATIC. This tool will generate a basic SLURM job submit script to run on Carina. When you like what you see, click the Copy to Clipboard button and paste the text into your text editor or terminal.</p>
-
-        <h3>Available Queues</h3>
-        <table class="table table-bordered table-condensed" id="resource-table">
+        <p><a href="https://carinadocs.sites.stanford.edu/slurm-primer">More information about using SLURM on Carina.</a></p>
+        <h3>
+          <a class="table-toggle btn btn-light" data-toggle="collapse" data-target="#resource-table" aria-expanded="false" aria-controls="resource-table"><i class="fa-solid fa-minus fa-sm"></i></a>
+          Available Queues
+        </h3>
+        <table class="table table-bordered table-condensed collapse show" id="resource-table">
           <thead>
             <tr>
               <th>Queue Name</th>
@@ -52,7 +55,6 @@
           </thead>
           <tbody></tbody>
         </table>
-            <p><a href="https://carinadocs.sites.stanford.edu/slurm-primer">More information about using SLURM on Carina.</a></p>
       </div>
     </div>
     <div class="row slurm-form">
@@ -70,25 +72,26 @@
         <fieldset>
           <h3>Allocate Resources</h3>
           <div class="form-group">
-            <label><span class="cpu-gpu">CPU</span> (cores)</label>
-            <select id="cpu" class="form-control fancy-dropdown">
-              <option selected value="<>">---</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Memory (GB)</label>
-            <select id="memory" class="form-control fancy-dropdown">
-              <option selected value="<>">---</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Nodes</label>
+            <label>Nodes <span id="nodeRange" class='form-text text-muted label-note'></span></label>
             <select id="nodes" class="form-control fancy-dropdown">
               <option selected value="<>">---</option>
             </select>
           </div>
+          <div class="form-group">
+            <label><span class="cpu-gpu">CPU/Cores</span> <span id="coreRange" class='form-text text-muted label-note'></span></label>
+            <select id="cpu" class="form-control fancy-dropdown">
+              <option selected value="<>">---</option>
+            </select>
+            <small id="cpuHelp" class="form-text text-muted"></small>
+          </div>
+          <div class="form-group">
+            <label>Memory (GB) <span id="memRange" class='form-text text-muted label-note'></span></label>
+            <select id="memory" class="form-control fancy-dropdown">
+              <option selected value="<>">---</option>
+            </select>
+          </div>
           <div class="form-group gpu-group">
-            <label>GPUs</label>
+            <label>GPUs <span id="gpuRange" class='form-text text-muted label-note'></span></label>
             <select id="gpu" class="form-control fancy-dropdown">
               <option selected value="<>">---</option>
             </select>
@@ -109,7 +112,7 @@
                 <select id="runtimeMin" class="form-control fancy-dropdown"></select>
                 <small class="form-text text-muted text-center">Minutes</small>
               </div>
-
+              <div class="col-auto"><span id="runMax" class='form-text text-muted'></span></div>
             </div>
         </fieldset>
         <fieldset>
@@ -134,23 +137,35 @@
             <label>Job Name</label>
             <input type="text" class="form-control" name="jobname" id="jobname" placeholder="Name this job" />
           </div>
-          <div class="form-group">
-            <label>Working directory</label>
-            <input type="text" class="form-control" name="workingdir" id="workingdir" placeholder="/full/path/to/directory/" />
-          </div>
         </fieldset>
       </div>
       <div class="col-sm-6">
         <div class="form-horizontal">
           <fieldset>
-            <h3>SLURM Script <a class="btn btn-outline-info float-right" id="copyBtn"><i class="fa-regular fa-clipboard"></i><span> Copy to Clipboard</span></a></h3>
+            <h3>SLURM Script <a class="btn btn-info float-right" id="copyBtn"><i class="fa-regular fa-clipboard"></i><span> Copy to Clipboard</span></a></h3>
             <div class="fancy-copy">
               <textarea id="slurm" class="form-control form-control-plaintext" rows="16" readonly></textarea>
               <i id="copyOverlay" class="fa-solid fa-clipboard-check"></i>
             </div>
           </fieldset>
+
+          <div class="card">
+            <div class="card-header">
+              Summary
+            </div>
+            <div class="card-body">
+              <p class="card-text">
+                <div id="narrative"></div>
+              </p>
+            </div>
+          </div>
+
           <fieldset>
-            <h3>Optional Settings</h3>
+            <h3>Optional Output Settings</h3>
+            <div class="form-group">
+              <label>Working directory</label>
+              <input type="text" class="form-control" name="workingdir" id="workingdir" placeholder="/full/path/to/directory/" />
+            </div>
             <div class="form-group">
               <label>Std out file name</label>
               <input type="text" class="form-control" name="stdout" id="stdout" placeholder="Change output file name" />

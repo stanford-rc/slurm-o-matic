@@ -149,3 +149,25 @@ select {
 .select2-container {
     width: auto !important;
 }
+.slurm-form label {
+  display:block;
+}
+span.label-note{
+  float:right;
+}
+span.separator{
+  line-height:36px;
+}
+#narrative code{
+  display:block;
+}
+
+h3 a.table-toggle {
+
+}
+
+.collapsing {
+  transition-timing-function: ease-in;
+}
+
+#copyBtn i {padding-right:4px}
