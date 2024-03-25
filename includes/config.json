@@ -37,9 +37,9 @@
 			"nodes": "3",
 			"displayNodes" : "6",
 			"gpus" : "Quad NVIDIA Tesla V100",
-			"gpuNumber" : 4,
+			"gpuNumber" : 3,
 			"gpuFlag" : "#SBATCH -C GPU_SKU:V100_PCIE",
-			"cores" : 30,
+			"cores" : 60,
 			"coresLimit" : 20,
 			"gpuId" : "V100_PCIE",
 			"showTable" : true

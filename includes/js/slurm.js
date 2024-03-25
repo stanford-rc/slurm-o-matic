@@ -13,12 +13,10 @@
       var queueLength;
       $.getJSON("includes/config.json", function(data) {
         config = data;
-        console.log('config', config);
         queueLength = config.queues.length;
         populateFakeGpu(config);
         console.log('new config', config);
         queueLength = config.queues.length;
-        console.log('queueLength', queueLength);
         populateResourceTable(config);
         populateQueueRadio(config);
         populateGpuRadio(config);
@@ -45,7 +43,6 @@
           }
         }
         $('.table-toggle').click(function() {
-          console.log('toggle');
           $(this).find('i').toggleClass('fas fa-plus fas fa-minus');
         });
       }
@@ -89,19 +86,15 @@
             var cpuCount = config.queues[i].cores;
             populateCores(cpuCount, cpuLimit);
 
-            var gpuCount = config.queues[i].gpus;
-            populateGpus(gpuCount);
             var memory = config.queues[i].memoryNum;
             populateMemory(memory)
             var nodeCount = config.queues[i].nodes;
             populateNodes(nodeCount);
-
-            var $gpugroup = $('#gpu-group');
-            if (config.queues[i].gpus) {
-              var gpus = config.queues[i].gpuNumber;
-              populateGpus(gpus);
-              console.log('gpus', gpus);
-            }
+if (config.queues[i].name == "gpu") {
+              var gpuNumber = config.queues[i].gpuNumber;
+              populateGpus(gpuNumber);
+              console.log('gpuNumber', gpuNumber);
+}
 
           }
         }
@@ -109,6 +102,7 @@
       }
 
       function populateGpus(gpus) {
+        console.log('populateGpus(gpus)',gpus);
         var gpuTarget = $('#gpu');
         var gpuSpan = $('#gpuRange');
         gpuTarget.empty();
@@ -152,14 +146,8 @@
         $($memory).val("1G");
       }
 
-      //makes a list of gpus and finds baseline among all flavors for generic option and creates new entry in config.
       function populateGpuRadio(config) {
         var $gpugroup = $('#choose-gpu');
-        var minNodes = Infinity;
-        var minMem = Infinity;
-        var minCores = Infinity;
-        var minCoresLim = Infinity;
-        var minGpu = Infinity;
         $gpugroup.empty();
         for (i = 0; i < queueLength; i++) {
           if (config.queues[i].gpus) {
@@ -171,17 +159,17 @@
             $('<label class="form-check-label">').html(config.queues[i].gpus).appendTo(gpuFlagRow);
           }
           $gpugroup.append(gpuFlagRow);
+
         }
       }
-      //makes a list of gpus and finds baseline among all flavors for generic option and creates new entry in config.
+      //makes a list of gpus and finds max among all flavors for generic option and creates new entry in config.
       function populateFakeGpu(config) {
-        console.log('populateFakeGpu', queueLength);
         var $gpugroup = $('#choose-gpu');
-        var minNodes = Infinity;
-        var minMem = Infinity;
-        var minCores = Infinity;
-        var minCoresLim = Infinity;
-        var minGpu = Infinity;
+        var minNodes = 0;
+        var minMem = 0;
+        var minCores = 0;
+        var minCoresLim = 0;
+        var minGpu = 0;
         //start finding lowest number
         for (i = 0; i < queueLength; i++) {
           if (config.queues[i].gpuFlag) {
@@ -190,22 +178,19 @@
             var minCoresLimTest = config.queues[i].coresLimit;
             var minCoresTest = config.queues[i].cores;
             var minGpuTest = config.queues[i].gpuNumber;
-            console.log('minGpuTest', minGpuTest);
-            if (minCores > minCoresTest) {
+            if (minCores < minCoresTest) {
               minCores = minCoresTest;
             }
-            if (minNodes > minNodesTest) {
+            if (minNodes < minNodesTest) {
               minNodes = minNodesTest;
             }
-            if (minCoresLim > minCoresLimTest) {
+            if (minCoresLim < minCoresLimTest) {
               minCoresLim = minCoresLimTest;
             }
-            if (minGpu > minGpuTest) {
+            if (minGpu < minGpuTest) {
               minGpu = minGpuTest;
             }
-            console.log('minMem', minMem);
-            console.log('minMemTest', minMemTest);
-            if (minMem > minMemTest) {
+            if (minMem < minMemTest) {
               minMem = minMemTest;
             }
           }
@@ -213,6 +198,7 @@
         config.queues.push({
           "name": "gpu",
           "gpus": "No preference",
+          "gpuId" : "None",
           "memoryNum": minMem,
           "nodes": minNodes,
           "gpuNumber": minGpu,
@@ -224,8 +210,13 @@
       function handleGPU(queue) {
         if (queue == "gpu") {
           $('.gpu-group').show();
-          var cpuHelp = $('#cpuHelp');
-          $('#cpuHelp').empty();
+
+          if ($(".gpu-flag-radio:checked").length == 0) {
+            //select the last radio, so the user doesn't see a bunch of nonsense in the script box
+            $('#choose-gpu .gpu-flag-radio').last().prop("checked", true);
+            populateResourceDropdowns(config);
+          }
+
         } else { //unselect/dump gpu options
           $(".gpu-group").hide();
           $(".gpu-flag-radio").prop('checked', false);
@@ -276,7 +267,6 @@
       }
 
       function generateScript() {
-        console.log('generateScript');
         // Grab Queue
         var queue = $('.queue_radio:checked').val();
         var queueStr = "#SBATCH -p " + queue + "\n";
@@ -288,7 +278,6 @@
         var runtimeHour = getFancyDropdown('#runtimeHr');
         var runtimeMinute = getFancyDropdown('#runtimeMin');
         var runtimeFormat = runtimeHour + ":" + runtimeMinute + ":00";
-        console.log('runtimeMinute', runtimeMinute);
         var gpu = null;
         gpu = $("#gpu").val();
         var cpuStr = "#SBATCH -n " + cpu + "\n";
@@ -313,11 +302,9 @@
             theme: 'bootstrap4',
             width: 'resolve'
           });
-          //console.log('script modules were not initialized');
           modules = $('#modules').select2('val');
         }
 
-        console.log('modules', modules);
         var modulesStr = "";
         if (modules != null) {
           for (i = 0; i < modules.length; i++) {
@@ -327,7 +314,6 @@
 
         // Grab commands
         var commands = $('#commands').val();
-        console.log('commands', commands);
         var commandsStr = commands + "\n";
 
         // Recommended settings
@@ -467,7 +453,6 @@
           }
         }
         if (hasMinutes) {
-          console.log('has min', min)
           minNew = min.replaceAll(/^0+/g, "");
           minNew = isOne(minNew, "minute", "minutes");
           minString = minNew + ".</p> "
@@ -614,7 +599,6 @@
           generateScript();
         } else if (hasClass(node, 'gpu-flag-radio')) {
           var selected_value = $(".gpu-flag-radio:checked").val();
-          console.log('selected_value', selected_value);
           if (selected_value == "minGpu") {
             populateFakeGpu();
           } else {
