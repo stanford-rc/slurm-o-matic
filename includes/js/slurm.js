@@ -90,11 +90,11 @@
             populateMemory(memory)
             var nodeCount = config.queues[i].nodes;
             populateNodes(nodeCount);
-if (config.queues[i].name == "gpu") {
+            if (config.queues[i].name == "gpu") {
               var gpuNumber = config.queues[i].gpuNumber;
               populateGpus(gpuNumber);
               console.log('gpuNumber', gpuNumber);
-}
+            }
 
           }
         }
@@ -102,7 +102,7 @@ if (config.queues[i].name == "gpu") {
       }
 
       function populateGpus(gpus) {
-        console.log('populateGpus(gpus)',gpus);
+        console.log('populateGpus(gpus)', gpus);
         var gpuTarget = $('#gpu');
         var gpuSpan = $('#gpuRange');
         gpuTarget.empty();
@@ -198,7 +198,7 @@ if (config.queues[i].name == "gpu") {
         config.queues.push({
           "name": "gpu",
           "gpus": "No preference",
-          "gpuId" : "None",
+          "gpuId": "None",
           "memoryNum": minMem,
           "nodes": minNodes,
           "gpuNumber": minGpu,
