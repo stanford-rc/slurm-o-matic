@@ -61,7 +61,6 @@ $(document).ready(function() {
       saveToSession('sunetid',sunetid);
     }
     if (jobid) {
-      //console.log("has jobid");
       slurmGpuUtil.empty();
       var slurmGpuUtilCommand = "srun --jobid=" + jobid + " --pty bash nvidia-smi";
       slurmGpuUtil.val(slurmGpuUtilCommand);
@@ -79,7 +78,6 @@ $(document).ready(function() {
     var targetText = node.dataset.target;
     var textToCopy = $("#" + targetText);
     var text = textToCopy.val();
-    //console.log('textToCopy', textToCopy);
     copyTextToClipboard(text);
   }
 
@@ -159,5 +157,6 @@ $(document).ready(function() {
   function autoFillSession(selector,fieldValue){
     field = $(selector);
     field.val(savedValue);
+    generateTips();
   }
 });
