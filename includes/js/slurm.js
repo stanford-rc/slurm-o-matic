@@ -26,6 +26,7 @@
         populateTimeDropdowns();
         startupCheckSession();
         generateScript();
+        bindEvents();
         return;
       }).fail(function(e) {
         //console.log("An error has occurred.", e);
@@ -73,6 +74,7 @@
         //check the session
         var sessionRadio = checkSession('queue_radio');
         var $queueList = $('#choose-queue');
+        $queueList.empty();
         const uniqueArr = [];
         for (i = 0; i < queueLength; i++) {
           if (uniqueArr.indexOf(config.queues[i].name) === -1) {
@@ -564,6 +566,7 @@
       //integrating a session check
       function populateModules(config) {
         var moduleSelect = $('#modules');
+        moduleSelect.empty();
         var modListPath = config.config.apps_url;
         var sessionModules = checkSession('modules');
         var sessionModulesArray;
@@ -579,7 +582,7 @@
               selectedModule = "";
               if (regex.test(line)) {} else {
                 if ($.inArray(line, sessionModulesArray) != -1) {
-                 //console.log('match', line);
+                  //console.log('match', line);
                   selectedModule = "selected";
                 }
                 moduleSelect.append('<option ' + selectedModule + ' value="' + line + '">' + line + '</option>');
@@ -592,34 +595,6 @@
             });
             generateScript();
 
-            //TODO: move this
-            moduleSelect.on('select2:select', function(e) {
-              generateScript();
-              getSaveData(e.node);
-            });
-            //TODO: move this
-            $("#commands").on('input', function() {
-              generateScript();
-              getSaveData("#commands");
-            });
-            //TODO: move this
-            $("#copyBtn").click(function() {
-              var textToCopy = $("#slurm");
-              var text = textToCopy.val();
-              copyTextToClipboard(text);
-            })
-            $("#resetBtn").click(function() {
-              sessionStorage.clear();
-              populateResourceDropdowns(config);
-              $('.text-fields .form-control').val('');
-              $('.fancy-dropdown').val(null).trigger('change');
-              generateScript();
-            })
-            $("#copyStatusBtn").click(function() {
-              var textToCopy = $("#slurmStatus");
-              var text = textToCopy.val();
-              copyTextToClipboard(text);
-            })
           })
       }
       $(document).on('input', '.autoresizing', function(e) {
@@ -643,30 +618,30 @@
       function checkSession(field) {
         var fieldValue = sessionStorage.getItem(field);
         if (fieldValue) {
-         //console.log('checkSession', field);
-         //console.log('checkSession value', fieldValue);
+          //console.log('checkSession', field);
+          //console.log('checkSession value', fieldValue);
           return fieldValue;
         }
       }
 
       function startupCheckSession() {
         sessionData = Object(sessionStorage);
-       //console.log(Object(sessionStorage));
+        //console.log(Object(sessionStorage));
         $.each(sessionData, function(k, v) {
           if (k == 'modules') {
             //console.log('skipping modules')
           } else {
             $('#' + k).val(v);
             $('#' + k).trigger('change');
-           //console.log(k + ' is ' + v);
+            //console.log(k + ' is ' + v);
           }
         });
       }
 
       function saveToSession(fieldId, fieldValue) {
         sessionStorage.setItem(fieldId, fieldValue);
-       //console.log('fieldId', fieldId);
-       //console.log('fieldValue', fieldValue);
+        //console.log('fieldId', fieldId);
+        //console.log('fieldValue', fieldValue);
       }
 
       function getSaveData(node) {
@@ -677,27 +652,50 @@
         }
       }
 
-      document.addEventListener('change', function(e) {
-        var node = e.target;
-        getSaveData(node);
+      function bindEvents() {
+        document.addEventListener('change', function(e) {
+          var node = e.target;
+          getSaveData(node);
 
-        const parent = node.closest('.slurm-form');
-        if (hasClass(node, 'queue_radio')) {
-          var selected_value = $(".queue_radio:checked").val();
+          if (hasClass(node, 'queue_radio')) {
+            var selected_value = $(".queue_radio:checked").val();
+            populateResourceDropdowns(config);
+            saveToSession('queue_radio', selected_value);
+            handleGPU(selected_value);
+            generateScript();
+          } else if (hasClass(node, 'gpu-flag-radio')) {
+            var selected_value = $(".gpu-flag-radio:checked").val();
+            saveToSession('gpu_radio', selected_value);
+            populateResourceDropdowns(config);
+            generateScript();
+          } else {
+            generateScript();
+          }
+        }, false);
+        $("#modules").on('select2:select', function(e) {
+          generateScript();
+          getSaveData(e.node);
+        });
+        $("#commands").on('input', function() {
+          generateScript();
+          getSaveData("#commands");
+        });
+        $("#copyBtn").click(function() {
+          var textToCopy = $("#slurm");
+          var text = textToCopy.val();
+          copyTextToClipboard(text);
+        })
+        $("#resetBtn").click(function() {
+          sessionStorage.clear();
+          collapseResourceTableSession();
+          populateQueueRadio(config);
+          populateGpuRadio(config);
+          populateModules(config);
           populateResourceDropdowns(config);
-          saveToSession('queue_radio', selected_value);
-          handleGPU(selected_value);
+          populateTimeDropdowns();
           generateScript();
-        } else if (hasClass(node, 'gpu-flag-radio')) {
-          var selected_value = $(".gpu-flag-radio:checked").val();
-          saveToSession('gpu_radio', selected_value);
-          populateResourceDropdowns(config);
-          generateScript();
-        } else {
-          generateScript();
-        }
-      }, false);
-
+        })
+      }
     }, //end renderUI
 
   }; //end SlurmOMatic
