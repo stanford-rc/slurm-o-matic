@@ -33,7 +33,6 @@
       });
 
       function populateResourceTable(config) {
-        $('#resource-table').collapse('hide');
         var $tableBody = $('#resource-table tbody');
         for (i = 0; i < queueLength; i++) {
           if (config.queues[i].showTable) { //skip if this is fake
@@ -48,25 +47,20 @@
           collapseResourceTableSession()
         }
 
-        $('.table-toggle').click(function() {
-          $(this).find('i').toggleClass('fas fa-plus fas fa-minus');
-          if (hasClass(this, 'collapsed')) {
-            sessionStorage.setItem('table-toggle', '');
-          } else {
-            sessionStorage.setItem('table-toggle', 'collapsed');
-          }
-        });
       }
 
       function collapseResourceTableSession() {
+
         var tableToggle = checkSession('table-toggle');
-        if (tableToggle == "collapsed") {
-          var tableToggleIcon = $('.table-toggle i');
+                  var tableToggleIcon = $('.table-toggle i');
           var showIcon = "fa-plus";
           var hideIcon = "fa-minus";
+        if (tableToggle == "collapsed") {
+          $('#resource-table').collapse('hide');
           tableToggleIcon.addClass(showIcon).removeClass(hideIcon);
         } else { //show it
-          $('#resource-table').addClass('show');
+          $('#resource-table').collapse('show');
+          tableToggleIcon.addClass(hideIcon).removeClass(showIcon);
         }
       }
 
@@ -695,6 +689,18 @@
           populateTimeDropdowns();
           generateScript();
         })
+        $('.table-toggle').click(function() {
+          if(!$("#resource-table").hasClass('show')){
+    console.log("Uncollapsed");
+    sessionStorage.setItem('table-toggle', '');
+
+}
+else {
+    console.log("Collapsed");
+    sessionStorage.setItem('table-toggle', 'collapsed');
+}
+    collapseResourceTableSession();
+        });
       }
     }, //end renderUI
 
