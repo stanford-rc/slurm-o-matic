@@ -167,7 +167,7 @@ h3 a.table-toggle {
 }
 
 .collapsing {
-  transition-timing-function: ease-in;
+  transition-timing-function: ease;
 }
 
 #copyBtn i {padding-right:4px}

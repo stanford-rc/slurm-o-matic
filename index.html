@@ -43,7 +43,7 @@
           <a class="table-toggle btn btn-light" data-toggle="collapse" data-target="#resource-table" aria-expanded="false" aria-controls="resource-table"><i class="fa-solid fa-minus fa-sm"></i></a>
           Available Queues
         </h3>
-        <table class="table table-bordered table-condensed collapse show" id="resource-table">
+        <table class="table table-bordered table-condensed collapse" id="resource-table">
           <thead>
             <tr>
               <th>Queue Name</th>
@@ -60,7 +60,7 @@
     <div class="row slurm-form">
       <div class="col-sm-6">
         <fieldset>
-          <h3>Choose a Queue</h3>
+          <h3>Choose a Queue <a class="btn btn-secondary float-right" id="resetBtn"><span> Reset Data</span></a></h3>
           <div class="form-group">
             <div id="choose-queue"></div>
           </div>
@@ -127,7 +127,7 @@
             <textarea class="form-control autoresizing" id="commands" rows="2" placeholder="srun hostname"></textarea>
           </div>
         </fieldset>
-        <fieldset>
+        <fieldset class="text-fields">
           <h3>Recommended Settings</h3>
           <div class="form-group">
             <label>SUnetID</label>
@@ -160,7 +160,7 @@
             </div>
           </div>
 
-          <fieldset>
+          <fieldset class="text-fields">
             <h3>Optional Output Settings</h3>
             <div class="form-group">
               <label>Working directory</label>

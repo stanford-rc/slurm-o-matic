@@ -2,13 +2,17 @@ $(document).ready(function() {
 
   $(document).on('click', '#generateBtn', function() {
     generateTips();
-    //console.log("generate button");
   });
   $(document).on('click', '.copy,.fa-clipboard', function(e) {
     generateTips();
     copyButton(e);
     //console.log("copy button");
   });
+
+  var savedValue = checkSession('sunetid');
+  if (savedValue){
+    autoFillSession('#sunetid',savedValue);
+  }
 
   async function copyTextToClipboard(text) {
     try {
@@ -54,7 +58,7 @@ $(document).ready(function() {
       userUtilizationCommand = generateUserUtilization(sunetid);
       slurmHistory.empty();
       slurmHistory.val(userUtilizationCommand);
-
+      saveToSession('sunetid',sunetid);
     }
     if (jobid) {
       //console.log("has jobid");
@@ -70,7 +74,7 @@ $(document).ready(function() {
   //gets data-target attribute of button and copies contents of that element
   function copyButton(event) {
     var node = event.target;
-      node = node.closest('.btn.copy');
+    node = node.closest('.btn.copy');
     $(node).addClass("copy-target");
     var targetText = node.dataset.target;
     var textToCopy = $("#" + targetText);
@@ -84,7 +88,6 @@ $(document).ready(function() {
     $('.copy.copy-target').width(baseWidth);
     copyBling();
     setTimeout(function() {
-      // Your jQuery action here
       copyUnBling();
       $('.copy-target').removeClass('copy-target');
     }, 2000); // Delay in milliseconds
@@ -144,4 +147,17 @@ $(document).ready(function() {
     return date;
   }
 
+  function saveToSession(field,fieldValue) {
+    sessionStorage.setItem(field, fieldValue);
+  }
+  function checkSession(field){
+    var fieldValue = sessionStorage.getItem(field);
+    if (fieldValue){
+      return fieldValue;
+    }
+  }
+  function autoFillSession(selector,fieldValue){
+    field = $(selector);
+    field.val(savedValue);
+  }
 });
