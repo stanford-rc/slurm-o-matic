@@ -52,9 +52,9 @@
       function collapseResourceTableSession() {
 
         var tableToggle = checkSession('table-toggle');
-                  var tableToggleIcon = $('.table-toggle i');
-          var showIcon = "fa-plus";
-          var hideIcon = "fa-minus";
+        var tableToggleIcon = $('.table-toggle i');
+        var showIcon = "fa-plus";
+        var hideIcon = "fa-minus";
         if (tableToggle == "collapsed") {
           $('#resource-table').collapse('hide');
           tableToggleIcon.addClass(showIcon).removeClass(hideIcon);
@@ -296,7 +296,7 @@
       function generateScript() {
         // Grab Queue
         var queue = $('.queue_radio:checked').val();
-        var queueStr = "#SBATCH -p " + queue + "\n";
+        var queueStr = "#SBATCH --partition " + queue + "\n";
 
         // Grab resources
         var cpu = getFancyDropdown('#cpu');
@@ -307,9 +307,9 @@
         var runtimeFormat = runtimeHour + ":" + runtimeMinute + ":00";
         var gpu = null;
         gpu = $("#gpu").val();
-        var cpuStr = "#SBATCH -n " + cpu + "\n";
+        var cpuStr = "#SBATCH --ntasks " + cpu + "\n";
         var memStr = "#SBATCH --mem=" + memory + "\n";
-        var nodesStr = "#SBATCH -N " + nodes + "\n";
+        var nodesStr = "#SBATCH --nodes " + nodes + "\n";
         var runtimeString = "# Define how long the job will run d-hh:mm:ss\n#SBATCH --time " + runtimeFormat + "\n";
         var gpuStr = "";
         if (gpu != null) {
@@ -452,7 +452,7 @@
         var introString = "<p>This script requests "
         var nodeString = nodes + ", ";
         var cpuString = "with " + cpu + ", ";
-        var memString = "and " + mem + "B of memory ";
+        var memString = " and " + mem + "B of memory ";
 
         var timeString = "";
         var timeIntroString = "<p>This job will run up to ";
@@ -690,16 +690,15 @@
           generateScript();
         })
         $('.table-toggle').click(function() {
-          if(!$("#resource-table").hasClass('show')){
-    console.log("Uncollapsed");
-    sessionStorage.setItem('table-toggle', '');
+          if (!$("#resource-table").hasClass('show')) {
+            console.log("Uncollapsed");
+            sessionStorage.setItem('table-toggle', '');
 
-}
-else {
-    console.log("Collapsed");
-    sessionStorage.setItem('table-toggle', 'collapsed');
-}
-    collapseResourceTableSession();
+          } else {
+            console.log("Collapsed");
+            sessionStorage.setItem('table-toggle', 'collapsed');
+          }
+          collapseResourceTableSession();
         });
       }
     }, //end renderUI
