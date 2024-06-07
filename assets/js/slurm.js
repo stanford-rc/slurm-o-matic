@@ -11,12 +11,13 @@
       var i;
       var j;
       var queueLength;
+      var resourceTable = $("#resource-table");
+
       $.getJSON("includes/config.json", function(data) {
         config = data;
         queueLength = config.queues.length;
         populateFakeGpu(config);
 
-        //console.log('new config', config);
         queueLength = config.queues.length;
         populateResourceTable(config);
         populateQueueRadio(config);
@@ -34,6 +35,8 @@
 
       function populateResourceTable(config) {
         var $tableBody = $('#resource-table tbody');
+        //have to have a skeleton row for accessibility, this removes it
+        $tableBody.empty();
         for (i = 0; i < queueLength; i++) {
           if (config.queues[i].showTable) { //skip if this is fake
             var tableRow = $('<tr>');
@@ -50,16 +53,15 @@
       }
 
       function collapseResourceTableSession() {
-
         var tableToggle = checkSession('table-toggle');
         var tableToggleIcon = $('.table-toggle i');
         var showIcon = "fa-plus";
         var hideIcon = "fa-minus";
         if (tableToggle == "collapsed") {
-          $('#resource-table').collapse('hide');
+          resourceTable.hide();
           tableToggleIcon.addClass(showIcon).removeClass(hideIcon);
         } else { //show it
-          $('#resource-table').collapse('show');
+          resourceTable.show();
           tableToggleIcon.addClass(hideIcon).removeClass(showIcon);
         }
       }
@@ -85,7 +87,7 @@
             queueRadio.prop('checked', true);
           }
           queueRadio.appendTo(queueRow);
-          $('<label class="form-check-label">').html(uniqueArr[i]).appendTo(queueRow);
+          $('<label class="form-check-label mt-2">').html(uniqueArr[i]).appendTo(queueRow);
           $queueList.append(queueRow);
         }
         //if no session info, select the first radio so the user doesn't see a bunch of nonsense in the script box
@@ -184,7 +186,7 @@
             }
             gpuFlagRadio.attr("data-flag", config.queues[i].gpuFlag)
             gpuFlagRadio.appendTo(gpuFlagRow);
-            $('<label class="form-check-label">').html(config.queues[i].gpus).appendTo(gpuFlagRow);
+            $('<label class="form-check-label mt-2">').html(config.queues[i].gpus).appendTo(gpuFlagRow);
           }
           $gpugroup.append(gpuFlagRow);
 
@@ -652,6 +654,7 @@
           getSaveData(node);
 
           if (hasClass(node, 'queue_radio')) {
+
             var selected_value = $(".queue_radio:checked").val();
             populateResourceDropdowns(config);
             saveToSession('queue_radio', selected_value);
@@ -689,15 +692,13 @@
           populateTimeDropdowns();
           generateScript();
         })
-        $('.table-toggle').click(function() {
-          if (!$("#resource-table").hasClass('show')) {
-            console.log("Uncollapsed");
-            sessionStorage.setItem('table-toggle', '');
-
-          } else {
-            console.log("Collapsed");
-            sessionStorage.setItem('table-toggle', 'collapsed');
-          }
+        var resourceTable1 = document.getElementById('resource-table')
+        resourceTable1.addEventListener('hidden.bs.collapse', function(e) {
+          sessionStorage.setItem('table-toggle', 'collapsed');
+          collapseResourceTableSession();
+        })
+        resourceTable1.addEventListener('shown.bs.collapse', function() {
+          sessionStorage.setItem('table-toggle', '');
           collapseResourceTableSession();
         });
       }
