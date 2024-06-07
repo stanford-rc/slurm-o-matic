@@ -1,6 +1,17 @@
-#/includes/config.json
-/vendor
-/components
-composer.lock
-/includes/scratch
+# Ignore Jekyll output
+_site
 
+# Ignore Jekyll dev
+.bundle
+.jekyll-metadata
+vendor
+
+# Ignore editor files
+*.swp
+
+# Local Netlify folder
+.netlify
+Gemfile.lock
+
+# don't commit to master
+sherlock.html
