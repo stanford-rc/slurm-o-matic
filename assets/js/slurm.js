@@ -81,13 +81,15 @@
         for (i = 0; i < uniqueArr.length; i++) {
           var queueRow = $('<div class="form-check">');
           var queueRadio = $('<input type="radio" class="queue_radio form-check-input" name="queue">');
-          var radioValue = uniqueArr[i]
+          var radioValue = uniqueArr[i];
+          var radioId = radioValue.replace(/\s+/g, '-').toLowerCase();
           queueRadio.val(radioValue);
+          queueRadio.prop('id',radioId + i);
           if (radioValue == sessionRadio) {
             queueRadio.prop('checked', true);
           }
           queueRadio.appendTo(queueRow);
-          $('<label class="form-check-label mt-2">').html(uniqueArr[i]).appendTo(queueRow);
+          $('<label class="form-check-label mt-2">').prop('for',radioId + i).html(uniqueArr[i]).appendTo(queueRow);
           $queueList.append(queueRow);
         }
         //if no session info, select the first radio so the user doesn't see a bunch of nonsense in the script box
@@ -181,12 +183,13 @@
             var gpuFlagRadio = $('<input type="radio" class="form-check-input gpu-flag-radio" name="gpuFlag">');
             var radioValue = config.queues[i].gpuId
             gpuFlagRadio.val(radioValue);
+            var gpuFlagRadioId = radioValue.replace(/\s+/g, '-').toLowerCase();
             if (radioValue == sessionRadio) {
               gpuFlagRadio.prop('checked', true);
             }
-            gpuFlagRadio.attr("data-flag", config.queues[i].gpuFlag)
+            gpuFlagRadio.attr("data-flag", config.queues[i].gpuFlag).prop('id',gpuFlagRadioId + i);
             gpuFlagRadio.appendTo(gpuFlagRow);
-            $('<label class="form-check-label mt-2">').html(config.queues[i].gpus).appendTo(gpuFlagRow);
+            $('<label class="form-check-label mt-2">').prop('for',gpuFlagRadioId + i).html(config.queues[i].gpus).appendTo(gpuFlagRow);
           }
           $gpugroup.append(gpuFlagRow);
 
