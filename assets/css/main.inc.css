@@ -465,6 +465,23 @@ div.fancy-copy.copied {
   display: none
 }
 
+.tips {
+  ::placeholder {
+    color: white;
+    opacity: .8;
+  }
+  margin-bottom:2em;
+  .tip-input {
+    input.terminal {
+      background-color: dimgray;
+      border: 1px solid;
+      color: white;
+      max-width: 100%;
+    }
+  }
+  .tip-btn {}
+}
+
 .tips h2 {
   margin-top: 2em;
   font-size: 2.4rem
@@ -598,7 +615,8 @@ textarea {
 }
 
 .text-muted {
-  opacity: 1
+  opacity: 1;
+  color:#333;
 }
 
 table.table {
@@ -608,4 +626,9 @@ table.table {
 .su-link,
 a {
   color: #00538f
+}
+
+.btn-primary {
+    --bs-btn-bg: #005999;
+    --bs-btn-border-color: #005999;
 }
