@@ -6,7 +6,7 @@ customjs: ./assets/js/slurm.js
 <p>Welcome to the Stanford Research Computing SLURM*O*MATIC. This tool will generate a basic SLURM job submit script to run on Carina. When you like what you see, click the Copy to Clipboard button and paste the text into your text editor or terminal.</p>
 <p><a href="https://carinadocs.sites.stanford.edu/slurm-primer">More information about using SLURM on Carina.</a></p>
 <h2>
-  <a class="table-toggle btn btn-light" data-bs-toggle="collapse" data-bs-target="#resource-table" aria-expanded="true" aria-controls="resource-table"><i class="fa-solid fa-minus fa-sm"></i></a>
+  <a class="table-toggle btn btn-light" data-bs-toggle="collapse" data-bs-target="#resource-table" aria-pressed="false" aria-controls="resource-table" role="button" aria-label="Collapse/show resource table"><i class="fa-solid fa-minus fa-sm"></i></a>
   Available Queues
 </h2>
 
@@ -88,6 +88,8 @@ customjs: ./assets/js/slurm.js
         <label for="modules">Modules to load</label>
         <select id='modules' class="fancy-dropdown" multiple="multiple" style="width:100%">
         </select>
+        <label for="enhanced-modules" class="sr-only">selected modules</label>
+        <label for="enhanced-module=search" class="sr-only">search available modules</label>
       </div>
       <div class="form-group">
         <label for "commands">Commands to run</label>
