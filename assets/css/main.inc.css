@@ -617,11 +617,6 @@ textarea {
   min-height: 4.4rem
 }
 
-.su-brand-bar__logo {
-  padding-top: 8px;
-  margin-top: 0;
-  padding-bottom: 2px
-}
 
 .select2-container--bootstrap4 .select2-selection--single {
   min-height: 4.4rem !important
