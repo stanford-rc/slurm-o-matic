@@ -592,6 +592,7 @@
               width: 'resolve',
               multiple: true
             });
+            $('.modules-group .select2-selection, .modules-group .select2-search__field').attr('aria-label', 'Modules to Load');
             generateScript();
 
           })
