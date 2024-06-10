@@ -616,6 +616,7 @@ textarea {
 
 .text-muted {
   opacity: 1;
+  --bs-secondary-color:#333;
   color:#333;
 }
 
