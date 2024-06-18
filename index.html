@@ -23,6 +23,10 @@ customjs: ./assets/js/slurm.js
   <tbody>
     <tr>
       <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
     </tr>
   </tbody>
 </table>
@@ -41,26 +45,26 @@ customjs: ./assets/js/slurm.js
 
     <h2>Allocate Resources</h2>
     <div class="form-group">
-      <label>Nodes <span id="nodeRange" class='form-text text-muted label-note'></span></label>
+      <label for="nodes">Nodes <span id="nodeRange" class='form-text text-muted label-note'></span></label>
       <select id="nodes" class="form-control fancy-dropdown">
         <option selected value="<>">---</option>
       </select>
     </div>
     <div class="form-group">
-      <label><span class="cpu-gpu">CPU/Cores</span> <span id="coreRange" class='form-text text-muted label-note'></span></label>
+      <label for="cpu"><span class="cpu-gpu">CPU/Cores</span> <span id="coreRange" class='form-text text-muted label-note'></span></label>
       <select id="cpu" class="form-control fancy-dropdown">
         <option selected value="<>">---</option>
       </select>
       <small id="cpuHelp" class="form-text text-muted"></small>
     </div>
     <div class="form-group">
-      <label>Memory (GB) <span id="memRange" class='form-text text-muted label-note'></span></label>
+      <label for="memory">Memory (GB) <span id="memRange" class='form-text text-muted label-note'></span></label>
       <select id="memory" class="form-control fancy-dropdown">
         <option selected value="<>">---</option>
       </select>
     </div>
     <div class="form-group gpu-group">
-      <label>GPUs <span id="gpuRange" class='form-text text-muted label-note'></span></label>
+      <label for="gpu">GPUs <span id="gpuRange" class='form-text text-muted label-note'></span></label>
       <select id="gpu" class="form-control fancy-dropdown">
         <option selected value="<>">---</option>
       </select>
@@ -70,14 +74,18 @@ customjs: ./assets/js/slurm.js
       <div class="form-row form-inline runtime-form d-flex align-items-top mt-2">
         <div class="flex-shrink-1">
           <label class="sr-only" for="runtimeHr">Hours</label>
-          <select id="runtimeHr" class="form-control fancy-dropdown"></select>
+          <select id="runtimeHr" class="form-control fancy-dropdown">
+            <option>2</option>
+          </select>
           <small class="form-text text-muted text-center">Hours</small>
         </div>
         <div class="ps-3 pe-3 flex-shrink-1">
           <span class="separator">:</span>
         </div>
         <div class="flex-shrink-1"><label class="sr-only" for="runtimeMin">Minutes</label>
-          <select id="runtimeMin" class="form-control fancy-dropdown"></select>
+          <select id="runtimeMin" class="form-control fancy-dropdown">
+            <option>0</option>
+          </select>
           <small class="form-text text-muted text-center">Minutes</small>
         </div>
         <div class="ms-4 flex-shrink-1""><span id="runMax" class='form-text text-muted'></span></div>
@@ -86,7 +94,7 @@ customjs: ./assets/js/slurm.js
       <h2>Modules/Commands</h2>
       <div class="form-group modules-group">
         <label for="modules">Modules to load</label>
-        <select id='modules' class="fancy-dropdown" multiple="multiple" style="width:100%">
+        <select id='modules' class="fancy-dropdown" multiple="multiple" style="width:100%"><option>search available modules</option>
         </select>
         <label for="enhanced-modules" class="sr-only">selected modules</label>
         <label for="enhanced-module=search" class="sr-only">search available modules</label>
