@@ -635,3 +635,8 @@ a {
     --bs-btn-bg: #005999;
     --bs-btn-border-color: #005999;
 }
+
+.select2-container--bootstrap4 .select2-dropdown .select2-results__option--selected {
+    color: #212529;
+    background-color: #f2f2f2;
+}
