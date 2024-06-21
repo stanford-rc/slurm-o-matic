@@ -656,9 +656,7 @@
         document.addEventListener('change', function(e) {
           var node = e.target;
           getSaveData(node);
-
           if (hasClass(node, 'queue_radio')) {
-
             var selected_value = $(".queue_radio:checked").val();
             populateResourceDropdowns(config);
             saveToSession('queue_radio', selected_value);
@@ -677,6 +675,10 @@
           generateScript();
           getSaveData(e.node);
         });
+        $("#modules").on('select2:unselect',function() {
+          generateScript();
+          getSaveData("#modules");
+        })
         $("#commands").on('input', function() {
           generateScript();
           getSaveData("#commands");
