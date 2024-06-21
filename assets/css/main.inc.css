@@ -502,13 +502,6 @@ div.fancy-copy.copied {
   font-size: 1.2rem
 }
 
-.slurm-page .select2-container--bootstrap4 .select2-selection--multiple button.select2-selection__choice__remove {
-  padding: 0 2px;
-  margin-right: 5px;
-  color: #fff;
-  min-width: 24px;
-  min-height: 24px
-}
 
 select {
   background: 0 0;
@@ -577,17 +570,17 @@ h2 a.btn {
   margin-left: 0;
   background-color:#f4f4f4;
   color:black;
-  margin-right:2px;
-  width:1em;
   text-align:center;
   font-size:18px;
+  padding: 0 2px;
+  margin-right: 5px;
+  min-width: 24px;
+  min-height: 24px
 }
 
 .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice__remove:hover {
     color: white;
     background-color:red;
-    font-size:20px;
-    line-height:27px;
 }
 
 #runtime .select2-container .selection {
