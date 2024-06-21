@@ -225,7 +225,8 @@ code {
   height: .7em;
   width: .7em;
   -webkit-mask: url(../assets/arrow-up-right.svg)no-repeat 0 0;
-  mask: url(../assets/arrow-up-right.svg)no-repeat 0 0
+  mask: url(../assets/arrow-up-right.svg)no-repeat 0 0;
+  mask-size: .7em .7em;
 }
 
 .sidebar .action-box {
