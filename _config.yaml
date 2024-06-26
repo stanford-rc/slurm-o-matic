@@ -19,6 +19,10 @@ lockup_link: /index.html
 lockup_line1: Research Computing
 lockup_modifier_class: su-lockup--option-b
 
+# if you have forked this, please please change this to your google analytics ID
+googleID : G-ZE47PKCRTK
+# googleID : G-XXXXXX
+
 defaults:
   -
     scope:
