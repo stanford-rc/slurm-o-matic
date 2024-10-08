@@ -112,12 +112,13 @@
             }
             var cpuLimit = config.queues[i].coresLimit;
             var cpuCount = config.queues[i].cores;
-            populateCores(cpuCount, cpuLimit);
+            populateCores(cpuLimit);
 
             var memory = config.queues[i].memoryNum;
             populateMemory(memory)
             var nodeCount = config.queues[i].nodes;
             populateNodes(nodeCount);
+            saveToSession('nodeTotal',nodeCount);
             if (config.queues[i].name == "gpu") {
               var gpuNumber = config.queues[i].gpuNumber;
               populateGpus(gpuNumber);
@@ -138,17 +139,33 @@
         gpuSpan.text(" up to " + gpus);
       }
 
-      function populateCores(cores, limit) {
+      function populateCores(limit) {
         var cpu = $('#cpu');
         var cpuSpan = $('#coreRange');
+        var nodeQuantity = checkSession('nodes');
+        //console.log('nodeQuantity first',nodeQuantity);
+        if (!nodeQuantity){
+          nodeQuantity = 1;
+          saveToSession('nodes', 1);
+        }
+        //console.log('nodeQuantity',nodeQuantity);
+        saveToSession('coresLimit', limit);
+        var coresCalc = nodeQuantity * limit;
+        //console.log('coresCalc',coresCalc);
         cpu.empty();
-        for (j = 1; j <= cores; j++) {
+        for (j = 1; j <= coresCalc; j++) {
           cpu.append('<option value="' + j + '">' + j + '</option>');
         }
-        cpuSpan.text(" up to " + cores);
+        cpuSpan.text(" up to " + coresCalc);
         var cpuHelp = $('#cpuHelp');
+        var nodeTotal = checkSession('nodeTotal');
+        var getMoreNodes = "";
+        if (nodeQuantity < nodeTotal){
+          getMoreNodes = ", increase nodes for more CPUs"
+        }
+        //console.log('getMoreNodes',getMoreNodes + " " + nodeQuantity  + " " + nodeTotal);
         if (limit) {
-          $('#cpuHelp').text("limit of " + limit + " CPUs per node");
+          $('#cpuHelp').text("limit of " + limit + " CPUs per node" + getMoreNodes);
         }
       }
 
@@ -671,6 +688,10 @@
             generateScript();
           }
         }, false);
+        $("#nodes").on('select2:select', function(e) {
+          var limit = checkSession('coresLimit');
+          populateCores(limit);
+        });
         $("#modules").on('select2:select', function(e) {
           generateScript();
           getSaveData(e.node);
