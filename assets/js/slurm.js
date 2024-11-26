@@ -318,7 +318,7 @@
       function generateScript() {
         // Grab Queue
         var queue = $('.queue_radio:checked').val();
-        var queueStr = "#SBATCH --partition " + queue + "\n";
+        var queueStr = "#SBATCH --partition=" + queue + "\n";
 
         // Grab resources
         var cpu = getFancyDropdown('#cpu');
@@ -329,10 +329,10 @@
         var runtimeFormat = runtimeHour + ":" + runtimeMinute + ":00";
         var gpu = null;
         gpu = $("#gpu").val();
-        var cpuStr = "#SBATCH --ntasks " + cpu + "\n";
+        var cpuStr = "#SBATCH --ntasks=" + cpu + "\n";
         var memStr = "#SBATCH --mem=" + memory + "\n";
-        var nodesStr = "#SBATCH --nodes " + nodes + "\n";
-        var runtimeString = "# Define how long the job will run d-hh:mm:ss\n#SBATCH --time " + runtimeFormat + "\n";
+        var nodesStr = "#SBATCH --nodes=" + nodes + "\n";
+        var runtimeString = "# Define how long the job will run d-hh:mm:ss\n#SBATCH --time=" + runtimeFormat + "\n";
         var gpuStr = "";
         if (gpu != null) {
           gpuStr = "#SBATCH --gres=gpu:" + gpu + "\n";
@@ -429,7 +429,8 @@
         }
         if (sunetid) {
           var email = sunetid + "@stanford.edu";
-          emailString = `<p>You will be notified at ${email} when the job ends or fails. </p>`;
+//          emailString = `<p>You will be notified at ${email} when the job ends or fails. </p>`;
+          emailString ="";
           squeueString = "<code>squeue -u " + sunetid + "</code>";
           jobHelpString = `<p>After you have submitted this script, look for your job ${jobname} using the terminal command ${squeueString}</p>`
         }
