@@ -5,7 +5,7 @@ customjs: ./assets/js/slurm.js
 ---
 <p>Welcome to the Stanford Research Computing SLURM*O*MATIC. This tool will generate a basic SLURM job submit script to run on Carina. When you like what you see, click the Copy to Clipboard button and paste the text into your text editor or terminal.</p>
 <p><a href="https://carinadocs.sites.stanford.edu/slurm-primer">More information about using SLURM on Carina.</a></p>
-<h2> 
+<h2>
   <a class="table-toggle btn btn-light" data-bs-toggle="collapse" data-bs-target="#resource-table" aria-pressed="false" aria-controls="resource-table" role="button" aria-label="Collapse/show resource table"><i class="fa-solid fa-minus fa-sm"></i></a>
   Available Queues
 </h2>
@@ -68,6 +68,7 @@ customjs: ./assets/js/slurm.js
       <select id="gpu" class="form-control fancy-dropdown">
         <option selected value="<>">---</option>
       </select>
+      <small id="gpuHelp" class="form-text text-muted"></small>
     </div>
     <div class="form-group" id='runtime'>
       <label>Running Time</label>
@@ -104,6 +105,10 @@ customjs: ./assets/js/slurm.js
       </div>
 
       <h2>Recommended Settings</h2>
+      <div class="form-group">
+        <label>SUnetID</label>
+        <input type="text" class="form-control" name="sunetid" id="sunetid" placeholder="Find your jobs" maxlength="8" />
+      </div>
       <div class="form-group">
         <label>Job Name</label>
         <input type="text" class="form-control" name="jobname" id="jobname" placeholder="Name this job" />
