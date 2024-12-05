@@ -9,7 +9,6 @@ go/1.17.2
 jags/4.3.0
 mamba/3
 matlab/r2021b
-matlab/r2023b
 maven/3.8.3
 micromamba/2.0.2
 oracle/21.7.0.0
