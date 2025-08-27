@@ -42,7 +42,6 @@ customjs: ./assets/js/slurm.js
       <label>Specify GPUs</label>
       <div id="choose-gpu"></div>
     </div>
-
     <h2>Allocate Resources</h2>
     <div class="form-group">
       <label for="nodes">Nodes <span id="nodeRange" class='form-text text-muted label-note'></span></label>
@@ -70,26 +69,31 @@ customjs: ./assets/js/slurm.js
       </select>
     </div>
     <div class="form-group" id='runtime'>
-      <label>Running Time</label>
-      <div class="form-row form-inline runtime-form d-flex align-items-top mt-2">
-        <div class="flex-shrink-1">
-          <label class="sr-only" for="runtimeHr">Hours</label>
-          <select id="runtimeHr" class="form-control fancy-dropdown">
-            <option>2</option>
-          </select>
-          <small class="form-text text-muted text-center">Hours</small>
+<label class="form-label">Job Runtime</label>
+    <div class="input-group">
+        <!-- START: Added Days Dropdown (hidden by default) -->
+        <div class="runtime-days-group" style="display: none;">
+            <select id="runtimeDay" class="form-select fancy-dropdown"></select>
+            <small class="form-text text-muted text-center w-100 d-block">Days</small>
+        </div>
+        <div class="runtime-days-group ps-3 pe-3 flex-shrink-1" style="display: none;">
+          <span class="separator">:</span> 
+        </div>
+        <!-- END: Added Days Dropdown -->
+        
+        <div>
+            <select id="runtimeHr" class="form-select fancy-dropdown"></select>
+            <small class="form-text text-muted text-center w-100 d-block">Hours</small>
         </div>
         <div class="ps-3 pe-3 flex-shrink-1">
           <span class="separator">:</span>
+        </div>        
+        <div>
+            <select id="runtimeMin" class="form-select fancy-dropdown"></select>
+            <small class="form-text text-muted text-center w-100 d-block">Minutes</small>
         </div>
-        <div class="flex-shrink-1"><label class="sr-only" for="runtimeMin">Minutes</label>
-          <select id="runtimeMin" class="form-control fancy-dropdown">
-            <option>0</option>
-          </select>
-          <small class="form-text text-muted text-center">Minutes</small>
-        </div>
-        <div class="ms-4 flex-shrink-1""><span id="runMax" class='form-text text-muted'></span></div>
-      </div>
+        <div class="ms-4 flex-shrink-1" "=""><span id="runMax" class="form-text text-muted"></span></div>
+    </div>
 
       <h2>Modules/Commands</h2>
       <div class="form-group modules-group">
