@@ -67,8 +67,8 @@
       function populateQueueRadio(config) {
         //check the session
         var sessionRadio = checkSession('choose-queue');
-        var $queueList = $('#choose-queue');
-        $queueList.empty();
+        var queueList = $('#choose-queue');
+        queueList.empty();
         const uniqueArr = [];
         for (i = 0; i < queueLength; i++) {
           if (uniqueArr.indexOf(config.queues[i].name) === -1) {
@@ -80,15 +80,15 @@
           var queueRow = $('<div class="form-check">');
           var queueRadio = $('<input type="radio" class="queue_radio form-check-input" name="queue">');
           var radioValue = uniqueArr[i];
-          var radioId = radioValue.replace(/\s+/g, '-').toLowerCase();
           queueRadio.val(radioValue);
-          queueRadio.prop('id', 'queue-' + i);
           if (radioValue == sessionRadio) {
             queueRadio.prop('checked', true);
           }
-          queueRadio.appendTo(queueRow);
-          $('<label class="form-check-label mt-2">').prop('for', 'queue-' + i).html(uniqueArr[i]).appendTo(queueRow);
-          $queueList.append(queueRow);
+          var queueLabelText = uniqueArr[i];
+          var queueRadioLabel = $('<label class="form-check-label mt-2">'+ queueLabelText + '</label>');
+          queueRadio.appendTo(queueRadioLabel);
+          queueRadioLabel.appendTo(queueRow);
+          queueList.append(queueRow);
         }
         //if no session info, select the first radio so the user doesn't see a bunch of nonsense in the script box
         if (!sessionRadio) {
@@ -114,7 +114,7 @@
 
         var isGpuQueue = !!gpuSpec;
 
-        if (isGpuQueue && gpuSpec === "None") {
+        if (isGpuQueue && gpuSpec === "none") {
           // Handle "No preference" for a GPU queue by reading data attributes from the radio button.
           var noPrefRadio = $('.gpu-flag-radio:checked');
           populateCores(noPrefRadio.data('cores-limit'));
@@ -218,9 +218,10 @@
         $($memory).val("1G");
       }
 
+
       function populateGpuRadio(config, queueName) {
-        var $gpugroup = $('#choose-gpu');
-        $gpugroup.empty(); // Clear previous options
+        var gpugroup = $('#choose-gpu');
+        gpugroup.empty(); // Clear previous options
 
         // Filter for GPU models of the specific queue
         var gpuModelsForQueue = config.queues.filter(function(q) {
@@ -231,12 +232,13 @@
           var gpuFlagRow = $('<div class="form-check"></div>');
           var gpuFlagRadio = $('<input type="radio" class="form-check-input gpu-flag-radio" name="gpuFlag">');
           var radioValue = queueConfig.gpuId.replace(/\s+/g, '-').toLowerCase();
-          var gpuFlagRadioId = ('gpu-' + radioValue);
+          var labelText = queueConfig.gpus;
           gpuFlagRadio.val(radioValue);
-          gpuFlagRadio.attr("data-flag", queueConfig.gpuFlag).prop('id', gpuFlagRadioId);
-          gpuFlagRadio.appendTo(gpuFlagRow);
-          $('<label class="form-check-label mt-2">').prop('for', gpuFlagRadioId).html(queueConfig.gpus).appendTo(gpuFlagRow);
-          $gpugroup.append(gpuFlagRow);
+          gpuFlagRadio.attr("data-flag", queueConfig.gpuFlag);
+          var gpuFlagRadioLabel = $('<label class="form-check-label mt-2">'+ labelText + '</label>');
+          gpuFlagRadio.appendTo(gpuFlagRadioLabel);
+          gpuFlagRadioLabel.appendTo(gpuFlagRow);
+          gpugroup.append(gpuFlagRow);
         });
 
         // After adding specific models, add the "No preference" option.
@@ -267,9 +269,7 @@
         var gpuFlagRow = $('<div class="form-check"></div>');
         var gpuFlagRadio = $('<input type="radio" class="form-check-input gpu-flag-radio" name="gpuFlag">');
         var radioId = queueName + '-no-preference';
-
-        gpuFlagRadio.val("None"); // Special value to identify this option
-        gpuFlagRadio.prop('id', radioId);
+        gpuFlagRadio.val("none"); // Special value to identify this option
 
         // Store permissive specs as data attributes to be read later
         gpuFlagRadio.attr('data-memory-num', max.mem);
@@ -285,6 +285,7 @@
 
       function handleRuntimeUI(queueName) {
         if (queueName === 'gpu-long') {
+            getSaveData("runtimeDay");
             $('.runtime-days-group').show();
             // Update the help text
             var dayLimit = config.config.longQueueRuntimeLimitDays || 7;
@@ -310,8 +311,7 @@
 
           // Check session for a saved preference for THIS partition, otherwise default to "No preference".
           var sessionRadioVal = checkSession('gpu_constraint');
-          var radioToCheck = sessionRadioVal ? $('input[name="gpuFlag"][value="' + sessionRadioVal + '"]') : $('#choose-gpu .gpu-flag-radio').last();
-
+          var radioToCheck = sessionRadioVal ? $('input[name="gpuFlag"][value="' + sessionRadioVal + '"]') : $('input[name="gpuFlag"][value="none"]');
           if (radioToCheck.length) {
             radioToCheck.prop("checked", true);
           } else if ($(".gpu-flag-radio:checked").length === 0) {
@@ -702,24 +702,24 @@
       function startupCheckSession() {
         sessionData = Object(sessionStorage);
         $.each(sessionData, function(k, v) {
-          if (k.startsWith('gpu_') || k === 'modules') {
+          if (k === 'modules') {
              // Skip these as they are handled contextually
-          } else {
+          } else{
             var element = $('#' + k);
             if(element.length) {
                  element.val(v);
                  element.trigger('change');
+             if (k === 'choose-queue'){
+            var currentQueue = v;
+            handleRuntimeUI(currentQueue);
+          }
             }
           }
         });
       }
 
       function saveToSession(fieldId, fieldValue) {
-        if (fieldId.startsWith('gpu-') || fieldId.startsWith('queue-')) {
-             // This is to not get randos from partition/gpu radios
-        } else {
         sessionStorage.setItem(fieldId, fieldValue);
-        }
       }
 
       function getSaveData(node) {
@@ -733,7 +733,6 @@
 function bindEvents() {
         document.addEventListener('change', function(e) {
             var node = e.target;
-            console.log("node",node);
             getSaveData(node);
             //deal with partition radios
             if (hasClass(node, 'queue_radio')) {

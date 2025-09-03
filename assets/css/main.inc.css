@@ -236,8 +236,8 @@ footer {
 /* --- Buttons --- */
 .btn {
   --bs-btn-padding-y: 8px;
-  --bs-btn-padding-x: 12px;
-  --bs-btn-font-size: 18px;
+  --bs-btn-padding-x: 6px;
+  --bs-btn-font-size: 16px;
 }
 
 .toggle-all:focus {
@@ -334,6 +334,77 @@ select {
 .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option {
   font-size: 16px;
 }
+.modules-group .select2-container--bootstrap-5 .select2-selection--multiple .select2-search {
+    height: auto;
+    padding-left:5px;
+}
+
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-search .select2-search__field,
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-search .select2-search__field:focus {
+  box-shadow: none;
+  width: 95% !important;
+  max-width: 100%;
+  min-height: 4.4rem;
+  background: 0 0
+}
+
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__choice {
+  font-size: 1.6rem;
+  margin-left:5px;
+}
+.slurm-form .select2-container .select2-selection--single {
+    height: 28px;
+}
+
+.select2-container--bootstrap-5 .select2-dropdown .select2-search .select2-search__field {
+    font-size: 16px;
+}
+
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__rendered .select2-selection__choice .select2-selection__choice__remove {
+  margin-left: 0;
+  background-color:#f4f4f4;
+  color:black;
+  text-align:center;
+  font-size:18px;
+  padding: 0 2px;
+  margin-right: 5px;
+  min-width: 24px;
+  min-height: 24px
+}
+
+input[type=text], select, textarea {
+    max-width: 100%;
+    min-height: 4.4rem;
+}
+
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__choice__remove:hover {
+    color: white;
+    background-color:red;
+}
+
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__rendered .select2-selection__choice {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 8px 0 0;
+    margin-right: .375rem;
+    margin-bottom: .375rem;
+    font-size: 16px;
+    color: #212529;
+    cursor: auto;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}
+
+#runtime .select2-container .selection {
+  min-height: 44px;
+  min-width: 44px;
+  font-size: 20px
+}
+
+#runtime .select2-container--bootstrap-5 .select2-selection--single {
+  min-height: 44px !important
+}
 
 
 /* 5.3 Output Area (Script, Copy Button, Narrative) */
@@ -343,6 +414,10 @@ select {
   border: 1px solid;
   margin: 0 0 2em;
   max-width: 100%;
+}
+
+#copyBtn {
+  min-width:150px;
 }
 
 #copyBtn.funkytown {
@@ -356,6 +431,10 @@ div.fancy-copy {
 div.fancy-copy.copied {
   background-color: #000;
   opacity: .5;
+}
+
+span.label-note {
+    float: right;
 }
 
 #copyOverlay {
