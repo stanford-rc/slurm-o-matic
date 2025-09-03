@@ -3,10 +3,14 @@ title: Carina SLURM Script Generator
 permalink: index.html
 customjs: ./assets/js/slurm.js
 ---
-<p>Welcome to the Stanford Research Computing SLURM*O*MATIC. This tool will generate a basic SLURM job submit script to run on Carina. When you like what you see, click the Copy to Clipboard button and paste the text into your text editor or terminal.</p>
+<p>Welcome to the Stanford Research Computing SLURM*O*MATIC. This tool will generate a basic SLURM job submit script to
+  run on Carina. When you like what you see, click the Copy to Clipboard button and paste the text into your text editor
+  or terminal.</p>
 <p><a href="https://carinadocs.sites.stanford.edu/slurm-primer">More information about using SLURM on Carina.</a></p>
 <h2>
-  <a class="table-toggle btn btn-light" data-bs-toggle="collapse" data-bs-target="#resource-table" aria-pressed="false" aria-controls="resource-table" role="button" aria-label="Collapse/show resource table"><i class="fa-solid fa-minus fa-sm"></i></a>
+  <a class="table-toggle btn btn-light" data-bs-toggle="collapse" data-bs-target="#resource-table" aria-pressed="false"
+    aria-controls="resource-table" role="button" aria-label="Collapse/show resource table"><i
+      class="fa-solid fa-minus fa-sm"></i></a>
   Available Queues
 </h2>
 
@@ -34,7 +38,8 @@ customjs: ./assets/js/slurm.js
 </div>
 <div class="row slurm-form">
   <div class="col-sm-6 pe-5">
-    <h2 class="d-flex align-items-center w-100"><span class="flex-grow-1">Choose a Queue </span><a class="btn-outline-dark btn flex-shrink-1" id="resetBtn"><span> Reset Data</span></a></h2>
+    <h2 class="d-flex align-items-center w-100"><span class="flex-grow-1">Choose a Queue </span><a
+        class="btn-outline-dark btn flex-shrink-1" id="resetBtn"><span> Reset Data</span></a></h2>
     <div class="form-group">
       <div id="choose-queue"></div>
     </div>
@@ -50,7 +55,8 @@ customjs: ./assets/js/slurm.js
       </select>
     </div>
     <div class="form-group">
-      <label for="cpu"><span class="cpu-gpu">CPU/Cores</span> <span id="coreRange" class='form-text text-muted label-note'></span></label>
+      <label for="cpu"><span class="cpu-gpu">CPU/Cores</span> <span id="coreRange"
+          class='form-text text-muted label-note'></span></label>
       <select id="cpu" class="form-control fancy-dropdown">
         <option selected value="<>">---</option>
       </select>
@@ -69,58 +75,65 @@ customjs: ./assets/js/slurm.js
       </select>
     </div>
     <div class="form-group" id='runtime'>
-<label class="form-label">Job Runtime</label>
-    <div class="input-group">
+      <label class="form-label">Job Runtime</label>
+      <div class="input-group">
         <!-- START: Added Days Dropdown (hidden by default) -->
         <div class="runtime-days-group" style="display: none;">
-            <select id="runtimeDay" class="form-select fancy-dropdown"></select>
-            <small class="form-text text-muted text-center w-100 d-block">Days</small>
+          <select id="runtimeDay" class="form-select fancy-dropdown"></select>
+          <small class="form-text text-muted text-center w-100 d-block">Days</small>
         </div>
         <div class="runtime-days-group ps-3 pe-3 flex-shrink-1" style="display: none;">
-          <span class="separator">:</span> 
+          <span class="separator">:</span>
         </div>
         <!-- END: Added Days Dropdown -->
-        
+
         <div>
-            <select id="runtimeHr" class="form-select fancy-dropdown"></select>
-            <small class="form-text text-muted text-center w-100 d-block">Hours</small>
+          <select id="runtimeHr" class="form-select fancy-dropdown"></select>
+          <small class="form-text text-muted text-center w-100 d-block">Hours</small>
         </div>
         <div class="ps-3 pe-3 flex-shrink-1">
           <span class="separator">:</span>
-        </div>        
-        <div>
-            <select id="runtimeMin" class="form-select fancy-dropdown"></select>
-            <small class="form-text text-muted text-center w-100 d-block">Minutes</small>
         </div>
-        <div class="ms-4 flex-shrink-1" "=""><span id="runMax" class="form-text text-muted"></span></div>
+        <div>
+          <select id="runtimeMin" class="form-select fancy-dropdown"></select>
+          <small class="form-text text-muted text-center w-100 d-block">Minutes</small>
+        </div>
+        <div class="ms-4 flex-shrink-1" "=""><span id=" runMax" class="form-text text-muted"></span></div>
+      </div>
     </div>
-</div>
-      <h2>Modules/Commands</h2>
-      <div class="form-group modules-group">
-        <label>Modules to load
-        <select id='modules' class="fancy-dropdown" multiple="multiple" style="width:100%"><option>search available modules</option>
+    <h2>Modules/Commands</h2>
+    <div class="form-group modules-group">
+      <label>Modules to load
+        <select id='modules' class="fancy-dropdown" multiple="multiple" style="width:100%">
+          <option>search available modules</option>
         </select>
       </label>
-      </div>
-      <div class="form-group">
-        <label for "commands">Commands to run</label>
-        <textarea class="form-control autoresizing" id="commands" rows="2" placeholder="srun hostname"></textarea>
-      </div>
+    </div>
+    <div class="form-group">
+      <label>Commands to run
+      <textarea class="form-control autoresizing" id="commands" rows="2" placeholder="srun hostname"></textarea>
+      </label>
+    </div>
 
-      <h2>Recommended Settings</h2>
-      <div class="form-group">
-        <label>SUnetID</label>
-        <input type="text" class="form-control" name="sunetid" id="sunetid" placeholder="This will enable email notifications" maxlength="8" />
-      </div>
-      <div class="form-group">
-        <label>Job Name</label>
+    <h2>Recommended Settings</h2>
+    <div class="form-group">
+      <label>SUnetID
+        <input type="text" class="form-control" name="sunetid" id="sunetid"
+          placeholder="This will enable email notifications" maxlength="8" />
+      </label>
+    </div>
+    <div class="form-group">
+      <label>Job Name
         <input type="text" class="form-control" name="jobname" id="jobname" placeholder="Name this job" />
-      </div>
+      </label>
+    </div>
   </div>
   <div class="col-sm-6 ps-4">
     <div class="form-horizontal">
 
-      <h2 class="d-flex align-items-center w-100"><label class="flex-grow-1" for="slurm">SLURM Script</label> <a class="flex-shrink-1 btn btn-primary btn-lg float-right" id="copyBtn"><i class="fa-regular fa-clipboard"></i><span> Copy to Clipboard</span></a></h2>
+      <h2 class="d-flex align-items-center w-100"><label class="flex-grow-1" for="slurm">SLURM Script</label> <a
+          class="flex-shrink-1 btn btn-primary btn-lg float-right" id="copyBtn"><i
+            class="fa-regular fa-clipboard"></i><span> Copy to Clipboard</span></a></h2>
       <div class="fancy-copy">
         <textarea id="slurm" class="form-control form-control-plaintext" rows="16" readonly></textarea>
         <i id="copyOverlay" class="fa-solid fa-clipboard-check"></i>
@@ -133,14 +146,15 @@ customjs: ./assets/js/slurm.js
         </div>
         <div class="card-body">
           <p class="card-text">
-            <div id="narrative"></div>
+          <div id="narrative"></div>
           </p>
         </div>
       </div>
       <h2>Optional Output Settings</h2>
       <div class="form-group">
         <label>Working directory</label>
-        <input type="text" class="form-control" name="workingdir" id="workingdir" placeholder="/full/path/to/directory/" />
+        <input type="text" class="form-control" name="workingdir" id="workingdir"
+          placeholder="/full/path/to/directory/" />
       </div>
       <div class="form-group">
         <label>Std out file name</label>

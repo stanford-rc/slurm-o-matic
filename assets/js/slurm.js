@@ -78,15 +78,16 @@
 
         for (i = 0; i < uniqueArr.length; i++) {
           var queueRow = $('<div class="form-check">');
-          var queueRadio = $('<input type="radio" class="queue_radio form-check-input" name="queue">');
+          var queueRadio = $('<input type="radio" class="queue_radio form-check-input" name="queue" />');
           var radioValue = uniqueArr[i];
           queueRadio.val(radioValue);
           if (radioValue == sessionRadio) {
             queueRadio.prop('checked', true);
           }
           var queueLabelText = uniqueArr[i];
-          var queueRadioLabel = $('<label class="form-check-label mt-2">'+ queueLabelText + '</label>');
+          var queueRadioLabel = $('<label class="form-check-label mt-2"></label>');
           queueRadio.appendTo(queueRadioLabel);
+          queueRadioLabel.append(queueLabelText);
           queueRadioLabel.appendTo(queueRow);
           queueList.append(queueRow);
         }
@@ -267,8 +268,7 @@
 
         // Create the "No preference" radio button
         var gpuFlagRow = $('<div class="form-check"></div>');
-        var gpuFlagRadio = $('<input type="radio" class="form-check-input gpu-flag-radio" name="gpuFlag">');
-        var radioId = queueName + '-no-preference';
+        var gpuFlagRadio = $('<label class="form-check-label mt-2"><input type="radio" class="form-check-input gpu-flag-radio" name="gpuFlag">No preference</label>');
         gpuFlagRadio.val("none"); // Special value to identify this option
 
         // Store permissive specs as data attributes to be read later
@@ -279,7 +279,6 @@
         gpuFlagRadio.attr('data-cores-limit', max.coresLim);
 
         gpuFlagRadio.appendTo(gpuFlagRow);
-        $('<label class="form-check-label mt-2">').prop('for', radioId).html("No preference").appendTo(gpuFlagRow);
         $gpugroup.append(gpuFlagRow);
       }
 
