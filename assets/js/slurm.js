@@ -491,8 +491,9 @@
         }
         if (sunetid) {
           var email = sunetid + "@stanford.edu";
-          //          emailString = `<p>You will be notified at ${email} when the job ends or fails. </p>`;
-          emailString = "";
+//          emailString = `<p>You will be notified at ${email} when the job ends or fails. </p>`;
+            emailString ="";
+
           squeueString = "<code>squeue -u " + sunetid + "</code>";
           jobHelpString = `<p>After you have submitted this script, look for your job ${jobname} using the terminal command ${squeueString}</p>`
         }

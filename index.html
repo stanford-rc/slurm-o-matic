@@ -73,6 +73,7 @@ customjs: ./assets/js/slurm.js
       <select id="gpu" class="form-control fancy-dropdown">
         <option selected value="<>">---</option>
       </select>
+      <small id="gpuHelp" class="form-text text-muted"></small>
     </div>
     <div class="form-group" id='runtime'>
       <label class="form-label">Job Runtime</label>
@@ -119,7 +120,7 @@ customjs: ./assets/js/slurm.js
     <div class="form-group">
       <label>SUnetID
         <input type="text" class="form-control" name="sunetid" id="sunetid"
-          placeholder="This will enable email notifications" maxlength="8" />
+          placeholder="Find your jobs" maxlength="8" />
       </label>
     </div>
     <div class="form-group">
