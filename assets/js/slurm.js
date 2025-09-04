@@ -111,10 +111,8 @@
       function populateResourceDropdowns(config) {
         var queue = $('.queue_radio:checked').val();
         handleGPU(queue); // This sets up the GPU radio buttons if needed.
-        var gpuSpec = $('.gpu-flag-radio:checked').val(); // This will be the gpuId or "None".
-
+        var gpuSpec = $('.gpu-flag-radio:checked').val(); // This will be the gpuId or "none".
         var isGpuQueue = !!gpuSpec;
-
         if (isGpuQueue && gpuSpec === "none") {
           // Handle "No preference" for a GPU queue by reading data attributes from the radio button.
           var noPrefRadio = $('.gpu-flag-radio:checked');
@@ -122,6 +120,7 @@
           populateMemory(noPrefRadio.data('memory-num'));
           populateNodes(noPrefRadio.data('nodes'));
           saveToSession('nodeTotal', noPrefRadio.data('nodes'));
+          //console.log("noPrefRadio.data('gpu-number')",noPrefRadio.data('gpu-number'));
           populateGpus(noPrefRadio.data('gpu-number'));
         } else {
           // This handles both a specific GPU model and any non-GPU partition.
@@ -268,8 +267,9 @@
 
         // Create the "No preference" radio button
         var gpuFlagRow = $('<div class="form-check"></div>');
-        var gpuFlagRadio = $('<label class="form-check-label mt-2"><input type="radio" class="form-check-input gpu-flag-radio" name="gpuFlag">No preference</label>');
-        gpuFlagRadio.val("none"); // Special value to identify this option
+        var gpuFlagRadioLabel = $('<label class="form-check-label mt-2">No preference</label>');
+        var gpuFlagRadio = $('<input type="radio" class="form-check-input gpu-flag-radio" name="gpuFlag" value="none">');
+        //gpuFlagRadio.val("none"); // Special value to identify this option
 
         // Store permissive specs as data attributes to be read later
         gpuFlagRadio.attr('data-memory-num', max.mem);
@@ -277,8 +277,8 @@
         gpuFlagRadio.attr('data-gpu-number', max.gpuNum);
         gpuFlagRadio.attr('data-cores', max.cores);
         gpuFlagRadio.attr('data-cores-limit', max.coresLim);
-
-        gpuFlagRadio.appendTo(gpuFlagRow);
+        gpuFlagRadio.appendTo(gpuFlagRadioLabel);
+        gpuFlagRadioLabel.appendTo(gpuFlagRow);
         $gpugroup.append(gpuFlagRow);
       }
 
@@ -332,7 +332,7 @@
           //console.log('Text copied to clipboard', text);
           notifyCopy();
         } catch (err) {
-          console.error('Failed to copy: ', err);
+          //console.error('Failed to copy: ', err);
         }
       }
 
