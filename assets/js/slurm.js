@@ -609,6 +609,10 @@
         //get the max runtime and subtract 1 to prevent a limit of 24 hours and a runtime of 48:59. Max hour/min will be 47:59
         var runtimeMax = config.config.runtimeLimit
         var runtimeMaxHour = config.config.runtimeLimit - 1;
+        var sessionRadio = $('.queue_radio:checked').val();
+        if (sessionRadio == 'gpu-long'){
+            runtimeMaxHour = 23;
+        }
         var runtimeDefault = 2;
         var display;
         var selectedString;
@@ -738,6 +742,7 @@ function bindEvents() {
             if (hasClass(node, 'queue_radio')) {
                 var selected_value = $(node).val();
                 handleRuntimeUI(selected_value);
+                populateTimeDropdowns();
                 handleGPU(selected_value);
                 populateResourceDropdowns(config);
                 saveToSession('choose-queue', selected_value);
