@@ -1,100 +1,78 @@
+/* ==========================================================================
+   1. FONT DEFINITIONS & ANIMATIONS
+   ========================================================================== */
+
+@font-face {
+  font-family: "Stanford";
+  src: url(https://www-media.stanford.edu/assets/fonts/stanford.woff)format("woff"), url(https://www-media.stanford.edu/assets/fonts/stanford.ttf)format("truetype");
+  font-weight: 300;
+  font-display: swap;
+}
+
 @keyframes fadeIn {
   0% {
-    opacity: 0
+    opacity: 0;
   }
-
   to {
-    opacity: 1
+    opacity: 1;
   }
+}
+
+/* ==========================================================================
+   2. BASE STYLES & TYPOGRAPHY
+   ========================================================================== */
+
+html {
+  font-size: 10px;
 }
 
 body {
   font-family: Source Sans Pro, Helvetica Neue, Helvetica, Arial, sans-serif;
-  font-size: 16px
+  font-size: 16px;
 }
 
 div,
 li,
 p {
-  line-height: 1.5
+  line-height: 1.5;
 }
 
 h2,
 h4 {
-  margin-bottom: .4em
+  margin-bottom: .4em;
 }
 
 h3 {
   margin-bottom: .75em;
   font-weight: 600;
-  margin-top: 1em
+  margin-top: 1em;
 }
 
-.su-main-nav ul.su-main-nav__menu-lv1>li:last-child>ul {
-  right: 0
+figure.hero-image .h4 {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+pre {
+  padding: 6px;
+  margin: 12px 0;
+  display: block;
+}
+
+pre.highlight {
+  background-color: #f4f4f4;
+}
+
+code {
+  color: #000;
 }
 
 .alert code,
 p code {
-  padding: 0 4px
+  padding: 0 4px;
 }
 
-pre.highlight {
-  padding: 6px;
-  background-color: #f4f4f4;
-  margin: 12px 0
-}
-
-footer {
-  margin-top: 2em
-}
-
-@media (max-width:769px) {
-  .sidebar {
-    font-size: 16px
-  }
-}
-
-.sidebar>div.alert {
-  margin: 1em 2em 1em 0;
-  display: block
-}
-
-.sidebar-also .active {
-  border-left: 2px solid #000;
-  padding-left: 1em;
-  display: none
-}
-
-.sidebar ul li ul {
-  margin-top: 0;
-  margin-left: 12px
-}
-
-.sidebar ul li {
-  border-bottom: 1px solid #d9d9d9;
-  padding: 10px 0;
-  margin-bottom: 0
-}
-
-.sidebar ul li ul li {
-  border-bottom: none;
-  padding: 2px 0
-}
-
-.alert.question a {
-  font-weight: 500
-}
-
-div.alert {
-  margin: 1.5em 0
-}
-
-.alert code {
-  color: inherit;
-  background: rgba(255, 255, 255, .4)
-}
-
+/* External Link Icons */
 #page-content .content a[href^="http://"]:after,
 #page-content .content a[href^="https://"]:after,
 #page-content a[href^="http://"]:after,
@@ -106,107 +84,29 @@ div.alert {
   display: inline-block;
   text-decoration: none;
   padding-left: 3px;
-  font-size: .8em
+  font-size: .8em;
 }
 
-div.fancy-copy.copied #copyOverlay {
-  display: block;
-  position: absolute;
-  top: 50%;
-  margin-top: -150px;
-  right: 50%;
-  margin-right: -112px;
-  font-size: 300px;
-  opacity: .3;
-  color: #000
+
+/* ==========================================================================
+   3. LAYOUT & MAJOR SECTIONS (Header, Footer, Sidebar)
+   ========================================================================== */
+
+header a:hover {
+  text-decoration: none;
 }
 
-.btn.generate {
-  margin-top: .2em
+footer {
+  margin-top: 2em;
 }
 
-.btn.copy,
-.btn.generate {
-  font-size: 16px
+.su-brand-bar,
+footer {
+  font-size: 62.5%;
 }
 
-.tip-input {
-  flex-grow: 9
-}
-
-.form-row .tip-input input {
-  width: 100%;
-  max-width: 100%
-}
-
-.tip-btn {
-  padding-top: .2em
-}
-
-a.btn {
-  text-decoration: none
-}
-
-#narrative code,
-#powerUrlLink {
-  display: block
-}
-
-.btn-info {
-  color: #fff;
-  background-color: #128193;
-  border-color: #128193
-}
-
-.alert.note {
-  color: #2e2d29
-}
-
-.su-card .su-card__contents>.h2 {
-  margin-bottom: 0;
-  font-size: 1.5625em;
-  letter-spacing: -.012em;
-  font-weight: 700;
-  line-height: 1.5
-}
-
-ul.plain-list {
-  list-style-type: none
-}
-
-.layout {
-  padding-top: 6rem
-}
-
-.alert.question h3,
-div+h2,
-div.section-head,
-p+h2 {
-  margin-top: 1.5em
-}
-
-code,
-kbd,
-pre,
-samp {
-  font-family: Menlo, "Roboto Mono", Monaco, Consolas, "Courier New", monospace
-}
-
-.alert.note,
-.sidebar .action-box,
-code,
-pre {
-  background-color: #f4f4f4
-}
-
-pre {
-  padding: 6px;
-  margin: 12px 0;
-  display: block
-}
-
-code {
-  color: #000
+.su-main-nav ul.su-main-nav__menu-lv1 > li:last-child > ul {
+  right: 0;
 }
 
 .su-local-footer__action-links a.su-link--email:after,
@@ -218,7 +118,7 @@ code {
   -webkit-mask: url(../assets/email.svg)no-repeat 0 0;
   mask: url(../assets/email.svg)no-repeat 0 0;
   -webkit-mask-size: contain;
-  mask-size: contain
+  mask-size: contain;
 }
 
 .su-local-footer__action-links a.su-link--external:after {
@@ -229,154 +129,127 @@ code {
   mask-size: .7em .7em;
 }
 
+/* --- Sidebar --- */
 .sidebar .action-box {
   padding: 1em;
-  border: 1px solid #b6b1a9
+  border: 1px solid #b6b1a9;
 }
 
-.sidebar>.alert,
-.sidebar>div {
+.sidebar > .alert,
+.sidebar > div {
   margin: 1em 2em 1em 0;
-  display: block
+  display: block;
 }
 
-.sidebar-right>div {
+.sidebar-right > div {
   margin: 1em 0 1em 2em;
-  display: block
+  display: block;
 }
 
-.sidebar>div:first-child {
-  margin-top: 0
+.sidebar > div:first-child {
+  margin-top: 0;
 }
 
 .sidebar .sidebar-toc {
   background-color: #f4f4f4;
-  padding: 1em
+  padding: 1em;
 }
 
 .sidebar ul {
   list-style-type: none;
   padding-left: 0;
   margin-top: 0;
-  display: block
+  display: block;
+}
+
+.sidebar ul li {
+  border-bottom: 1px solid #d9d9d9;
+  padding: 10px 0;
+  margin-bottom: 0;
+}
+
+.sidebar ul li ul {
+  margin-top: 0;
+  margin-left: 12px;
+}
+
+.sidebar ul li ul li {
+  border-bottom: none;
+  padding: 2px 0;
 }
 
 .sidebar ul a {
   color: #2e2d29;
   text-decoration: none;
-  font-weight: 500
+  font-weight: 500;
 }
 
 .sidebar ul li ul li a {
-  font-weight: 400
+  font-weight: 400;
 }
 
 .sidebar ul a:hover {
-  text-decoration: underline
+  text-decoration: underline;
+}
+
+.sidebar-also .active {
+  border-left: 2px solid #000;
+  padding-left: 1em;
+  display: none;
+}
+
+
+/* ==========================================================================
+   4. COMPONENT STYLES (Alerts, Buttons, Accordions)
+   ========================================================================== */
+
+/* --- Alerts --- */
+.alert {
+  margin: 1.5em 0;
+}
+
+.alert.question a {
+  font-weight: 500;
 }
 
 .alert .fa-solid {
   margin: 0 .5em;
-  opacity: .5
+  opacity: .5;
 }
 
 .sidebar .alert .fa-solid {
-  margin: 0 12px 0 2px
-}
-
-.alert {
-  margin: 1.5em 0
+  margin: 0 12px 0 2px;
 }
 
 .alert p.h4,
 .sidebar h2,
 .sidebar h3 {
   font-size: 1.2em;
-  font-weight: 600
-}
-
-.alert .title {
-  font-weight: 700
-}
-
-.alert.question .fa-solid {
-  opacity: .5
-}
-
-.alert.question {
-  background-color: #f4f4f4
-}
-
-#copyBtn.funkytown,
-.alert.question div {
-  text-align: left
-}
-
-.alert.note i {
-  color: #544948
-}
-
-.alert.tip i {
-  color: #417865
-}
-
-a.no_icon:after,
-a[href].noCrossRef::after {
-  content: "" !important;
-  padding-left: 0
-}
-
-.su-local-footer__columns .su-local-footer__social-links a.su-link--external:after,
-.su-local-footer__columns .su-local-footer__social-links a.su-link--mailto:after,
-.su-lockup a.su-link--external:after,
-svg.su-link--external {
-  clip: rect(1px, 1px, 1px, 1px);
-  border: 0;
-  -webkit-clip-path: inset(100%);
-  clip-path: inset(100%);
-  height: 1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px
-}
-
-.su-hero,
-.su-hero__media {
-  min-height: auto !important
-}
-
-a .fa {
-  margin-right: .3em
-}
-
-.more-link a,
-a.more-link {
   font-weight: 600;
-  font-size: .9em;
-  padding-left: 0;
-  padding-top: 2px;
-  display: inline;
-  text-transform: uppercase;
-  text-decoration: none
 }
 
-div.text-chunk {
-  margin-bottom: 2em;
-  padding-bottom: 1em;
-  border-bottom: 1px solid #b6b1a9
+.alert code {
+  color: inherit;
+  background: rgba(255, 255, 255, .4);
 }
 
-div.text-chunk .post {
-  margin-top: 0;
-  margin-bottom: 1.5em
+/* --- Buttons --- */
+.btn {
+  --bs-btn-padding-y: 8px;
+  --bs-btn-padding-x: 6px;
+  --bs-btn-font-size: 16px;
 }
 
 .toggle-all:focus {
   text-decoration: none;
   background-color: transparent;
-  color: #333
+  color: #333;
+}
+
+/* --- Accordions --- */
+.accordion {
+  --bs-accordion-btn-icon: url("image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='black'%3e%3cpath fill-rule='evenodd' stroke = 'black' stroke-width='1px' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  --bs-accordion-btn-active-icon: url("image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='black'%3e%3cpath fill-rule='evenodd' stroke = 'black' stroke-width='1px' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
 }
 
 .accordion button.accordion-button {
@@ -385,175 +258,89 @@ div.text-chunk .post {
   padding: 1em;
   color: #333;
   width: 100%;
-  text-align: left
+  text-align: left;
 }
 
 .accordion button.accordion-button:not(.collapsed) {
-  background-color: #f4f4f4
+  background-color: #f4f4f4;
 }
 
-.accordion {
-  --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='black'%3e%3cpath fill-rule='evenodd' stroke = 'black' stroke-width='1px' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
-  --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='black'%3e%3cpath fill-rule='evenodd' stroke = 'black' stroke-width='1px' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e")
-}
 
-.btn {
-  --bs-btn-padding-y: 8px;
-  --bs-btn-padding-x: 12px;
-  --bs-btn-font-size: 18px
-}
+/* ==========================================================================
+   5. SLURM-O-MATIC PAGE STYLES
+   ========================================================================== */
 
-figure.hero-image .h4 {
-  font-size: 1.2em;
-  font-weight: 600
-}
-
-@font-face {
-  font-family: "Stanford";
-  src: url(https://www-media.stanford.edu/assets/fonts/stanford.woff)format("woff"), url(https://www-media.stanford.edu/assets/fonts/stanford.ttf)format("truetype");
-  font-weight: 300;
-  font-display: swap
-}
-
-html {
-  font-size: 10px
-}
-
-.su-brand-bar,
-footer {
-  font-size: 62.5%
-}
-
-header a:hover {
-  text-decoration: none
-}
-
-.slurm-form .runtime-form {
-  align-items: flex-start
-}
-
-#slurm {
-  background-color: #fff;
-  padding: 1em;
-  border: 1px solid;
-  margin: 0 0 2em;
-  max-width: 100%
+/* 5.1 General Page & Form Layout */
+.slurm-page {
+  padding-top: 1rem;
+  padding-bottom: 2rem;
 }
 
 .slurm-page h1 {
   margin-bottom: 1em;
-  font-size: 4rem
-}
-
-.slurm-page h3 {
-  margin-top: 1em
-}
-
-#copyBtn.funkytown {
-  animation: fadeIn 1s
-}
-
-div.fancy-copy {
-  position: relative
-}
-
-div.fancy-copy.copied {
-  background-color: #000;
-  opacity: .5
-}
-
-#copyOverlay {
-  display: none
-}
-
-.tips {
-  ::placeholder {
-    color: white;
-    opacity: .8;
-  }
-  margin-bottom:2em;
-  .tip-input {
-    input.terminal {
-      background-color: dimgray;
-      border: 1px solid;
-      color: white;
-      max-width: 100%;
-    }
-  }
-  .tip-btn {}
-}
-
-.tips h2 {
-  margin-top: 2em;
-  font-size: 2.4rem
+  font-size: 4rem;
 }
 
 .slurm-page h2 {
   margin-top: 1em;
-  font-size: 2.8rem
+  font-size: 2.8rem;
 }
 
-.slurm-page {
-  padding-top: 1rem;
-  padding-bottom: 2rem
+.slurm-page h3 {
+  margin-top: 1em;
 }
 
-.slurm-page .ui-datepicker table {
-  font-size: 1.2rem
+.slurm-form .runtime-form {
+  align-items: flex-start;
 }
 
-
-select {
-  background: 0 0;
-  background-image: none
-}
-
+/* 5.2 Specific Form Elements (Inputs, Labels, Dropdowns) */
 .form-control,
 .form-control-plaintext {
-  font-size: 16px
-}
-
-.select2-container {
-  width: auto !important
+  font-size: 16px;
 }
 
 .slurm-form label {
   display: block;
   width: 100%;
-  max-width: 100%
+  max-width: 100%;
 }
 
-span.label-note {
-  float: right
+.slurm-page .ui-datepicker table {
+  font-size: 1.2rem;
 }
 
-span.separator {
-  line-height: 36px
+select {
+  background: 0 0;
+  background-image: none;
 }
 
-.collapsing {
-  transition-timing-function: ease
+.select2-container {
+  width: auto !important;
 }
 
-#copyBtn i {
-  padding-right: 4px
-}
-
-a.btn {
-  font-size: 1em;
+#runtime .select2-container--bootstrap-5 .select2-selection,
+#runtime .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option {
   min-height: 44px;
-  min-width: 44px;
-
+  padding-right: 30px;
+  font-size:22px
 }
 
-h2 a.btn {
-  font-size: 1.6rem;
+#runtime span.separator {
+    line-height: 36px;
 }
-.slurm-form h2 label {
-  width: auto;
+
+.select2-container--bootstrap-5 .select2-selection,
+.select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option {
+  font-size: 16px;
 }
-.select2-container--bootstrap4 .select2-selection--multiple .select2-search__field,
-.select2-container--bootstrap4 .select2-selection--multiple .select2-search__field:focus {
+.modules-group .select2-container--bootstrap-5 .select2-selection--multiple .select2-search {
+    height: auto;
+    padding-left:5px;
+}
+
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-search .select2-search__field,
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-search .select2-search__field:focus {
   box-shadow: none;
   width: 95% !important;
   max-width: 100%;
@@ -561,12 +348,19 @@ h2 a.btn {
   background: 0 0
 }
 
-.select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice {
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__choice {
   font-size: 1.6rem;
   margin-left:5px;
 }
+.slurm-form .select2-container .select2-selection--single {
+    height: 28px;
+}
 
-.select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice__remove {
+.select2-container--bootstrap-5 .select2-dropdown .select2-search .select2-search__field {
+    font-size: 16px;
+}
+
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__rendered .select2-selection__choice .select2-selection__choice__remove {
   margin-left: 0;
   background-color:#f4f4f4;
   color:black;
@@ -578,9 +372,28 @@ h2 a.btn {
   min-height: 24px
 }
 
-.select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice__remove:hover {
+input[type=text], select, textarea {
+    max-width: 100%;
+    min-height: 4.4rem;
+}
+
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__choice__remove:hover {
     color: white;
     background-color:red;
+}
+
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__rendered .select2-selection__choice {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 8px 0 0;
+    margin-right: .375rem;
+    margin-bottom: .375rem;
+    font-size: 16px;
+    color: #212529;
+    cursor: auto;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
 }
 
 #runtime .select2-container .selection {
@@ -589,54 +402,79 @@ h2 a.btn {
   font-size: 20px
 }
 
-#runtime .select2-container--bootstrap4 .select2-selection--single {
+#runtime .select2-container--bootstrap-5 .select2-selection--single {
   min-height: 44px !important
 }
 
-.ui-datepicker select.ui-datepicker-month,
-.ui-datepicker select.ui-datepicker-year {
-  display: inline-block;
-  height: auto;
-  padding: 0 2px
-}
 
-.ui-datepicker table {
-  font-size: .8em
-}
-
-input[type=text],
-select,
-textarea {
+/* 5.3 Output Area (Script, Copy Button, Narrative) */
+#slurm {
+  background-color: #fff;
+  padding: 1em;
+  border: 1px solid;
+  margin: 0 0 2em;
   max-width: 100%;
-  min-height: 4.4rem
+}
+
+#copyBtn {
+  min-width:150px;
+}
+
+#copyBtn.funkytown {
+  animation: fadeIn 1s;
+}
+
+div.fancy-copy {
+  position: relative;
+}
+
+div.fancy-copy.copied {
+  background-color: #000;
+  opacity: .5;
+}
+
+span.label-note {
+    float: right;
+}
+
+#copyOverlay {
+  display: none;
+}
+
+/* 5.4 Tips Component */
+.tips {
+  margin-bottom: 2em;
+}
+
+.tips h2 {
+  margin-top: 2em;
+  font-size: 2.4rem;
+}
+
+.tips ::placeholder {
+  color: white;
+  opacity: .8;
+}
+
+.tips .tip-input input.terminal {
+  background-color: dimgray;
+  border: 1px solid;
+  color: white;
+  max-width: 100%;
 }
 
 
-.select2-container--bootstrap4 .select2-selection--single {
-  min-height: 4.4rem !important
-}
+/* ==========================================================================
+   6. RESPONSIVE DESIGN
+   ========================================================================== */
 
-.text-muted {
-  opacity: 1;
-  --bs-secondary-color:#333;
-  color:#333;
-}
+@media (max-width:769px) {
+  .sidebar {
+    font-size: 16px;
+  }
 
-table.table {
-  border-top: 2px solid #333
-}
-
-.su-link,
-a {
-  color: #00538f
-}
-
-.btn-primary {
-    --bs-btn-bg: #005999;
-    --bs-btn-border-color: #005999;
-}
-
-.select2-container--bootstrap4 .select2-dropdown .select2-results__option--selected {
-    color: #212529;
-    background-color: #f2f2f2;
+  .sidebar > div.alert {
+    margin: 1em 2em 1em 0;
+    display: block;
+  }
 }
