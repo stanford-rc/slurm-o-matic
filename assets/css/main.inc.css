@@ -478,3 +478,7 @@ span.label-note {
     display: block;
   }
 }
+
+#runtime .select2-container .select2-selection--single .select2-selection__rendered {
+    overflow: visible;
+}

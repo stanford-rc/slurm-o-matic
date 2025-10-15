@@ -412,7 +412,7 @@
           $('#modules').select2({
             theme: 'bootstrap4', // Use bootstrap-5 for compatibility
             width: 'resolve',
-            multiple: true
+            multiple: true,
           });
           modules = $('#modules').select2('val');
         }
@@ -671,8 +671,13 @@
             $('#modules').select2({
               theme: 'bootstrap-5',
               width: 'resolve',
-              multiple: true
+              multiple: true,
+              placeholder: {
+                id: '-1', // the value of the option
+                text: 'Select modules'
+              }
             });
+            checkModuleList();
 
             generateScript();
 
@@ -722,6 +727,16 @@
         });
       }
 
+      function checkModuleList(){
+        var moduleUl = $("ul#select2-modules-container"); 
+       
+        console.log('modules',moduleUl.length);  
+        if (moduleUl.length <= 1){
+          var li = document.createElement("li");
+          console.log('no modules');
+          $(moduleUl).append(li);
+        } 
+      }
       function saveToSession(fieldId, fieldValue) {
         sessionStorage.setItem(fieldId, fieldValue);
       }
@@ -769,6 +784,7 @@ function bindEvents() {
         $("#modules").on('select2:unselect', function() {
           generateScript();
           getSaveData("#modules");
+          checkModuleList();
         })
         $("#commands").on('input', function() {
           generateScript();
